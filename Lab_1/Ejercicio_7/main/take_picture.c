@@ -6,12 +6,11 @@
 
 // 1. Board setup (Uncomment):
 // #define BOARD_WROVER_KIT
-// #define BOARD_ESP32CAM_AITHINKER
+#define BOARD_ESP32CAM_AITHINKER
 // #define BOARD_ESP32S3_WROOM
 // #define BOARD_ESP32S3_XIAO
 // #define BOARD_ESP32S3_GOOUUU
 // #define BOARD_ESP32S3_XIAO
-#define BOARD_ESP32CAM_AITHINKER
 
 /**
  * 2. Kconfig setup
@@ -155,7 +154,13 @@ void app_main(void)
 
         // use pic->buf to access the image
         ESP_LOGI(TAG, "Picture taken! Its size was: %zu bytes", pic->len);
-        esp_camera_fb_return(pic);
+        //esp_camera_fb_return(pic);
+
+        for (int i = 0; i < pic->len; i++) {
+            printf("0x%02X, ", pic->buf[i]);
+        }
+        printf("\n");
+
 
         vTaskDelay(5000 / portTICK_RATE_MS);
     }
