@@ -8,9 +8,10 @@
 #include "esp_timer.h"
 #include "esp_cpu.h"
 #include "esp_system.h"
+#include "esp_private/esp_clk.h"
 
 #ifndef CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ
-#define CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ 240
+#define CONFIG_ESP_DEFAULT_CPU_FREQ_MHZ 160
 #endif
 
 /*
