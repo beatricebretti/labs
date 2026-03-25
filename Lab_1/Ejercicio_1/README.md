@@ -7,5 +7,5 @@ This project is a modified version of the ESP-IDF `hello_world` example. It has 
 To build and run this project, ensure your environment is set up and run:
 
 ```bash
-# Build, flash to the MCU, and open the monitor
+# Setup, build, flash to the MCU, and open the monitor
 source ~/.zprofile && source ~/.zshrc && get_esp32 && idf.py build && idf.py flash -p /dev/<PORT> monitor
