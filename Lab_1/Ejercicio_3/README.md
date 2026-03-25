@@ -14,4 +14,4 @@ Este ejercicio implementa el pseudocódigo pedido en la sección 2.2 Ejercicio 3
 
 ## Compilar, flashear y monitorear
 ```bash
-source ~/.zprofile && source ~/.zshrc && get_esp32 && idf.py build && idf.py flash -p /dev/cu.usbserial-1120 monitor
+source ~/.bashrc && get_esp32 && idf.py build flash monitor -p /dev/ttyACM0
