@@ -3,6 +3,6 @@ Embedded systems labs.
 
 # Integrantes
 - Simón Alonso
-- Matias
+- Matias García-Huidobro
 - Julián Pineda
 - Beatrice Valdés
