@@ -149,20 +149,23 @@ void app_main(void)
 
     while (1)
     {
-        ESP_LOGI(TAG, "Taking picture...");
+        ESP_LOGI(TAG, "Smile, te estamos sacando una foto:");
         camera_fb_t *pic = esp_camera_fb_get();
 
-        // use pic->buf to access the image
-        ESP_LOGI(TAG, "Picture taken! Its size was: %zu bytes", pic->len);
-        //esp_camera_fb_return(pic);
+        if (!pic) {
+            ESP_LOGE(TAG, "Camera capture failed");
+            continue;
+        }
 
+        // Hex print loop for Ejercicio 7
         for (int i = 0; i < pic->len; i++) {
-            printf("0x%02X, ", pic->buf[i]);
+            printf("0x%02X,", pic->buf[i]);
         }
         printf("\n");
 
+        esp_camera_fb_return(pic);
 
-        vTaskDelay(5000 / portTICK_RATE_MS);
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
     }
 #else
     ESP_LOGE(TAG, "Camera support is not available for this chip");
