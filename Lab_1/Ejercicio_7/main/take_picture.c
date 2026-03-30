@@ -55,7 +55,7 @@
 #include "esp_camera_af.h"
 #endif
 
-#define BOARD_WROVER_KIT 1
+//#define BOARD_WROVER_KIT 1
 
 #include "camera_pinout.h"
 
