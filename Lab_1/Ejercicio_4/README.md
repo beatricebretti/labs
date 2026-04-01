@@ -25,9 +25,9 @@ Para cada tipo de memoria:
 - placa con PSRAM si se quiere medir PSRAM
 - PSRAM habilitada en `idf.py menuconfig`
 
-## Flujo
-source ~/.bashrc && get_esp32
-idf.py fullclean
-idf.py set-target esp32s3
-idf.py build
-idf.py -p /dev/ttyACM0 flash monitor
+## Instrucciones de Ejecución
+Para compilar, flashear y monitorear este ejercicio, asegúrese de estar en la carpeta raíz del Ejercicio 4 y ejecute:
+```bash
+source ~/.zprofile && source ~/.zshrc && get_esp32 && idf.py build && idf.py flash -p /dev/cu.usbserial-110 monitor
+```
+Nota: Reemplazar `/dev/cu.usbserial-110` por puerto específico si es diferente.
