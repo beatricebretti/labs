@@ -3,9 +3,13 @@
 - `ejercicio7.png`: Imagen final reconstruida a partir de los datos hexadecimales.
 - `link.txt`: Enlace al Google Colab utilizado para la visualización.
 
+![PNG](https://github.com/beatricebretti/labs/blob/main/Lab_1/Ejercicio_7/ejercicio7.png)
+
 Se incrementó el `Task Watchdog timeout period` a 30 segundos para permitir que el bucle de impresión de datos hexadecimales termine sin reiniciar el chip.
 
 Estructura `camera_config_t` se configuró con:
 - `PIXFORMAT_GRAYSCALE`
 - `FRAMESIZE_96X96`
 - `CAMERA_FB_IN_DRAM`
+
+  
