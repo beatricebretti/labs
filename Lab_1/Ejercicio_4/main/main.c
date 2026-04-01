@@ -1,6 +1,3 @@
----
-
-
 #include <stdio.h>
 #include <stdint.h>
 #include <inttypes.h>
@@ -23,10 +20,10 @@
 static const size_t TEST_SIZES[NUM_TEST_SIZES] = {20, 40, 80, 160, 320, 512};
 
 /*
- * Para calcular "cycles per byte" asumimos por iteración:
- * - lectura de vector[i]      -> 4 bytes
- * - lectura de num           -> 4 bytes
- * - escritura de result[i]   -> 4 bytes
+ * Por iteración asumimos:
+ * - lectura de vector[i]    -> 4 bytes
+ * - lectura de num          -> 4 bytes
+ * - escritura de result[i]  -> 4 bytes
  * Total: 12 bytes por elemento
  */
 #define BYTES_PER_ELEMENT_ACCESSED (3 * sizeof(int))
@@ -56,15 +53,9 @@ RTC_DATA_ATTR static volatile int s_vector_rtc[MAX_VECTOR_SIZE];
 RTC_DATA_ATTR static volatile int s_num_rtc = 5;
 RTC_DATA_ATTR static volatile int s_result_rtc[MAX_VECTOR_SIZE];
 
-/*
- * FLASH / rodata:
- * aquí solo vector y escalar quedan en flash.
- * El resultado no puede escribirse en flash, así que se deja en DRAM.
- */
 const __attribute__((section(".rodata"))) int s_vector_flash_ext[MAX_VECTOR_SIZE] = {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
-    /* el resto queda inicializado a 0 automáticamente */
+    11, 12, 13, 14, 15, 16, 17, 18, 19, 20
 };
 const __attribute__((section(".rodata"))) int s_num_flash_ext = 5;
 DRAM_ATTR static volatile int s_result_flash[MAX_VECTOR_SIZE];
@@ -267,42 +258,6 @@ static benchmark_result_t bench_dynamic_dram(size_t n) {
     return out;
 }
 
-static benchmark_result_t bench_dynamic_iram(size_t n) {
-    benchmark_result_t out = {0};
-
-    int *vector = (int *)heap_caps_malloc(n * sizeof(int), MALLOC_CAP_EXEC);
-    int *result = (int *)heap_caps_malloc(n * sizeof(int), MALLOC_CAP_EXEC);
-    int *num = (int *)heap_caps_malloc(sizeof(int), MALLOC_CAP_EXEC);
-
-    out.memory_name = "DYNAMIC_IRAM";
-    out.elements = n;
-    out.bytes_total = n * BYTES_PER_ELEMENT_ACCESSED;
-
-    if (!vector || !result || !num) {
-        out.cycles = 0;
-        out.cycles_per_byte = 0.0;
-        out.pass = 0;
-        if (vector) free(vector);
-        if (result) free(result);
-        if (num) free(num);
-        return out;
-    }
-
-    fill_sequence_normal(vector, n);
-    memset(result, 0, n * sizeof(int));
-    *num = 5;
-
-    out.cycles = multiply_dynamic_normal(result, vector, num, n);
-    out.cycles_per_byte = (double)out.cycles / (double)out.bytes_total;
-    out.pass = check_result_normal(result, n, *num);
-
-    free(vector);
-    free(result);
-    free(num);
-
-    return out;
-}
-
 static benchmark_result_t bench_dynamic_psram(size_t n) {
     benchmark_result_t out = {0};
 
@@ -385,18 +340,16 @@ static void benchmark_task(void *arg) {
         benchmark_result_t r3 = bench_static_rtc(n);
         benchmark_result_t r4 = bench_static_flash(n);
         benchmark_result_t r5 = bench_dynamic_dram(n);
-        benchmark_result_t r6 = bench_dynamic_iram(n);
 
         print_result(&r1);
         print_result(&r2);
         print_result(&r3);
         print_result(&r4);
         print_result(&r5);
-        print_result(&r6);
 
         if (esp_psram_is_initialized()) {
-            benchmark_result_t r7 = bench_dynamic_psram(n);
-            print_result(&r7);
+            benchmark_result_t r6 = bench_dynamic_psram(n);
+            print_result(&r6);
         }
     }
 

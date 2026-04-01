@@ -26,7 +26,8 @@ Para cada tipo de memoria:
 - PSRAM habilitada en `idf.py menuconfig`
 
 ## Flujo
-```bash
+source ~/.bashrc && get_esp32
+idf.py fullclean
 idf.py set-target esp32s3
-idf.py menuconfig
-idf.py -p /dev/ttyACM0 build flash monitor
+idf.py build
+idf.py -p /dev/ttyACM0 flash monitor
