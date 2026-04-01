@@ -1,6 +1,6 @@
 # Ejercicio 6
 - `output.pdf`: Documento con las captura del monitor serial.
-- `CameraWebServer/`: Directorio con el codigo ejemplo de arduino modificado.
+- `code/`: Directorio con el codigo ejemplo de arduino modificado.
 
 Configuración del entorno de desarrollo Arduino IDE para trabajar con el módulo ESP32-CAM. Se realizó una prueba de inicialización para validar la comunicación con el sensor OV2640. 
 
