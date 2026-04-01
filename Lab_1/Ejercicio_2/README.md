@@ -1,15 +1,19 @@
 # Ejercicio 2
 
-Se implementa un algoritmo de detección de bordes utilizando el Operador Sobel en un ESP32. El flujo de trabajo consiste en pre procesar una imagen en Python, convertirla a una matriz de bytes en C, y procesarla en el microcontrolador.
+En este ejercicio se procesó una imagen monocromática utilizando un filtro de detección de bordes (Operador Sobel). La imagen original fue pre-procesada en Google Colab para ajustarla a una resolución de 96x96 píxeles y convertida a un arreglo de valores de 8 bits (grayscale).
 
-- `convert_image.py`: Script de Python para redimensionar y convertir imágenes a arreglos de C.
-- `link.txt`: Enlace al Google Colab utilizado para la visualización de resultados.
-- `img1.jpeg`: imagen de entrada
-- `img2.jpeg`: imagen de salida
+- `main/ejercicio_2.c`: Implementación de los kernels de Sobel (Gx, Gy) y cálculo de magnitud.
+- `main/se2_1_image.h`: Imagen de entrada en formato de arreglo C.
+- `output.pdf`: Comparativa de la imagen de entrada y la salida procesada.
+- `link.txt`: Enlace a Google Colab.
 
-## Instalación y ejecución final
-````
-pip install Pillow
-python convert_image.py
+## Requisitos
+- ESP-IDF Instalado
+* **Chip:** ESP32-S3.
 
-source ~/.zprofile && source ~/.zshrc && get_esp32 && idf.py build && idf.py flash -p /dev/<PORT> monitor
+## Instrucciones de Ejecución
+Para compilar, flashear y monitorear este ejercicio, asegúrese de estar en la carpeta raíz del Ejercicio 1 y ejecute:
+```bash
+source ~/.zprofile && source ~/.zshrc && get_esp32 && idf.py build && idf.py flash -p /dev/cu.usbserial-110 monitor
+```
+Nota: Reemplazar `/dev/cu.usbserial-110` por puerto específico si es diferente.
