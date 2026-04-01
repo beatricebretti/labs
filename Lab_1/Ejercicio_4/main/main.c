@@ -9,8 +9,6 @@
 
 #include "esp_cpu.h"
 #include "esp_heap_caps.h"
-#include "esp_psram.h"
-#include "esp_system.h"
 #include "esp_attr.h"
 
 #define MAX_VECTOR_SIZE 512
@@ -52,10 +50,6 @@ RTC_DATA_ATTR static volatile int s_vector_rtc[MAX_VECTOR_SIZE];
 RTC_DATA_ATTR static volatile int s_num_rtc = 5;
 RTC_DATA_ATTR static volatile int s_result_rtc[MAX_VECTOR_SIZE];
 
-/*
- * Vector y escalar en flash/rodata.
- * El resultado se deja en DRAM porque flash no es escribible así.
- */
 const __attribute__((section(".rodata"))) int s_vector_flash_ext[MAX_VECTOR_SIZE] = {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
     11, 12, 13, 14, 15, 16, 17, 18, 19, 20
@@ -100,6 +94,15 @@ static int check_result_normal(const int *result, size_t n, int num) {
             return 0;
         }
     }
+    return 1;
+}
+
+static int psram_available(void) {
+    void *p = heap_caps_malloc(16, MALLOC_CAP_SPIRAM);
+    if (p == NULL) {
+        return 0;
+    }
+    free(p);
     return 1;
 }
 
@@ -327,12 +330,12 @@ static void benchmark_task(void *arg) {
 
     printf("\nInicio benchmark Ejercicio 4\n");
 
-    size_t psram_size = esp_psram_get_size();
+    int has_psram = psram_available();
 
-    if (psram_size > 0) {
-        printf("PSRAM detectada e inicializada correctamente. Size = %u bytes\n", (unsigned)psram_size);
+    if (has_psram) {
+        printf("PSRAM detectada y usable mediante MALLOC_CAP_SPIRAM.\n");
     } else {
-        printf("PSRAM NO detectada o no inicializada.\n");
+        printf("PSRAM NO disponible o no habilitada.\n");
     }
 
     print_header();
@@ -352,7 +355,7 @@ static void benchmark_task(void *arg) {
         print_result(&r4);
         print_result(&r5);
 
-        if (psram_size > 0) {
+        if (has_psram) {
             benchmark_result_t r6 = bench_dynamic_psram(n);
             print_result(&r6);
         }
