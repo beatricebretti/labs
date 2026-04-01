@@ -42,10 +42,6 @@ DRAM_ATTR static volatile int s_vector_dram[MAX_VECTOR_SIZE];
 DRAM_ATTR static volatile int s_num_dram = 5;
 DRAM_ATTR static volatile int s_result_dram[MAX_VECTOR_SIZE];
 
-IRAM_ATTR static volatile int s_vector_iram[MAX_VECTOR_SIZE];
-IRAM_ATTR static volatile int s_num_iram = 5;
-IRAM_ATTR static volatile int s_result_iram[MAX_VECTOR_SIZE];
-
 RTC_DATA_ATTR static volatile int s_vector_rtc[MAX_VECTOR_SIZE];
 RTC_DATA_ATTR static volatile int s_num_rtc = 5;
 RTC_DATA_ATTR static volatile int s_result_rtc[MAX_VECTOR_SIZE];
@@ -175,23 +171,6 @@ static benchmark_result_t bench_static_dram(size_t n) {
     out.cycles = multiply_static_volatile(s_result_dram, s_vector_dram, &s_num_dram, n);
     out.cycles_per_byte = (double)out.cycles / (double)out.bytes_total;
     out.pass = check_result_volatile(s_result_dram, n, s_num_dram);
-
-    return out;
-}
-
-static benchmark_result_t bench_static_iram(size_t n) {
-    benchmark_result_t out = {0};
-
-    fill_sequence_volatile(s_vector_iram, n);
-    s_num_iram = 5;
-    memset((void *)s_result_iram, 0, n * sizeof(int));
-
-    out.memory_name = "STATIC_IRAM";
-    out.elements = n;
-    out.bytes_total = n * BYTES_PER_ELEMENT_ACCESSED;
-    out.cycles = multiply_static_volatile(s_result_iram, s_vector_iram, &s_num_iram, n);
-    out.cycles_per_byte = (double)out.cycles / (double)out.bytes_total;
-    out.pass = check_result_volatile(s_result_iram, n, s_num_iram);
 
     return out;
 }
@@ -344,20 +323,18 @@ static void benchmark_task(void *arg) {
         size_t n = TEST_SIZES[i];
 
         benchmark_result_t r1 = bench_static_dram(n);
-        benchmark_result_t r2 = bench_static_iram(n);
-        benchmark_result_t r3 = bench_static_rtc(n);
-        benchmark_result_t r4 = bench_static_flash(n);
-        benchmark_result_t r5 = bench_dynamic_dram(n);
+        benchmark_result_t r2 = bench_static_rtc(n);
+        benchmark_result_t r3 = bench_static_flash(n);
+        benchmark_result_t r4 = bench_dynamic_dram(n);
 
         print_result(&r1);
         print_result(&r2);
         print_result(&r3);
         print_result(&r4);
-        print_result(&r5);
 
         if (has_psram) {
-            benchmark_result_t r6 = bench_dynamic_psram(n);
-            print_result(&r6);
+            benchmark_result_t r5 = bench_dynamic_psram(n);
+            print_result(&r5);
         }
     }
 
