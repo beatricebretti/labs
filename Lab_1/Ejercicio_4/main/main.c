@@ -11,7 +11,6 @@
 #include "esp_heap_caps.h"
 #include "esp_psram.h"
 #include "esp_system.h"
-#include "esp_timer.h"
 #include "esp_attr.h"
 
 #define MAX_VECTOR_SIZE 512
@@ -20,11 +19,11 @@
 static const size_t TEST_SIZES[NUM_TEST_SIZES] = {20, 40, 80, 160, 320, 512};
 
 /*
- * Por iteración asumimos:
- * - lectura de vector[i]    -> 4 bytes
- * - lectura de num          -> 4 bytes
- * - escritura de result[i]  -> 4 bytes
- * Total: 12 bytes por elemento
+ * Por iteración:
+ * - lectura de vector[i]   -> 4 bytes
+ * - lectura de num         -> 4 bytes
+ * - escritura de result[i] -> 4 bytes
+ * Total = 12 bytes por elemento
  */
 #define BYTES_PER_ELEMENT_ACCESSED (3 * sizeof(int))
 
@@ -53,6 +52,10 @@ RTC_DATA_ATTR static volatile int s_vector_rtc[MAX_VECTOR_SIZE];
 RTC_DATA_ATTR static volatile int s_num_rtc = 5;
 RTC_DATA_ATTR static volatile int s_result_rtc[MAX_VECTOR_SIZE];
 
+/*
+ * Vector y escalar en flash/rodata.
+ * El resultado se deja en DRAM porque flash no es escribible así.
+ */
 const __attribute__((section(".rodata"))) int s_vector_flash_ext[MAX_VECTOR_SIZE] = {
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
     11, 12, 13, 14, 15, 16, 17, 18, 19, 20
@@ -324,8 +327,10 @@ static void benchmark_task(void *arg) {
 
     printf("\nInicio benchmark Ejercicio 4\n");
 
-    if (esp_psram_is_initialized()) {
-        printf("PSRAM detectada e inicializada correctamente.\n");
+    size_t psram_size = esp_psram_get_size();
+
+    if (psram_size > 0) {
+        printf("PSRAM detectada e inicializada correctamente. Size = %u bytes\n", (unsigned)psram_size);
     } else {
         printf("PSRAM NO detectada o no inicializada.\n");
     }
@@ -347,7 +352,7 @@ static void benchmark_task(void *arg) {
         print_result(&r4);
         print_result(&r5);
 
-        if (esp_psram_is_initialized()) {
+        if (psram_size > 0) {
             benchmark_result_t r6 = bench_dynamic_psram(n);
             print_result(&r6);
         }
