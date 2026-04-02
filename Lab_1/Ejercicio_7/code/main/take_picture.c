@@ -1,16 +1,4 @@
-/**
- * This example takes a picture every 5s and print its size on serial monitor.
- */
 
-// =============================== SETUP ======================================
-
-// 1. Board setup (Uncomment):
-// #define BOARD_WROVER_KIT
-#define BOARD_ESP32CAM_AITHINKER
-// #define BOARD_ESP32S3_WROOM
-// #define BOARD_ESP32S3_XIAO
-// #define BOARD_ESP32S3_GOOUUU
-// #define BOARD_ESP32S3_XIAO
 
 /**
  * 2. Kconfig setup
@@ -55,7 +43,7 @@
 #include "esp_camera_af.h"
 #endif
 
-//#define BOARD_WROVER_KIT 1
+#define BOARD_ESP32CAM_AITHINKER
 
 #include "camera_pinout.h"
 
