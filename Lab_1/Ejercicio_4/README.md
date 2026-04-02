@@ -1,4 +1,4 @@
-# Lab 1 - Ejercicio 4
+# Ejercicio 4
 
 Este ejercicio mide el costo de acceso a distintas memorias del ESP32/ESP32-S3
 usando una operación de multiplicación vector-escalar.

@@ -1,4 +1,4 @@
-# Lab 1 - Ejercicio 3
+# Ejercicio 3
 
 Este ejercicio implementa el pseudocódigo pedido en la sección 2.2 Ejercicio 3 del laboratorio.
 
