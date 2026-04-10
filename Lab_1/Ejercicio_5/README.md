@@ -1,18 +1,43 @@
-# Ejercicio 5
+# Ejercicio_5 
 
-Este ejercicio integra el uso de actuadores (Motores DC mediante puente H L298N) y sensores analógicos (Micrófonos). El sistema detecta peaks de intensidad sonora y activa el movimiento.
+## Hardware usado
+- ESP32-S3 N8R2
+- 2x motores TT DC
+- L298N
+- MAX9814 
 
-- `main/main.c`: Lógica de lectura de ADC y control de GPIO para motores.
-- `output.pdf`: Evidencia del funcionamiento y análisis.
+## Pines usados
+### L298N
+- ENA -> GPIO15
+- IN1 -> GPIO4
+- IN2 -> GPIO5
+- IN3 -> GPIO6
+- IN4 -> GPIO7
+- ENB -> GPIO16
+- GND -> GND ESP32
+- +Vmotor -> batería de motores 
 
-## Conexiones (L298N + ESP32-S3)
-* **Motores:** GPIO 4, 5, 6 y 7. (REVISAR)
-* **Micrófonos:** GPIO 1 (Izq) y GPIO 2 (Der).
-* **Alimentación:** Baterías externas al L298N, GND compartido con el ESP32.
+### MAX9814
+- VDD -> 3V3 ESP32
+- GND -> GND ESP32
+- OUT -> GPIO1 (ADC1_CH0)
 
-## Instrucciones de Ejecución
-Para compilar, flashear y monitorear este ejercicio, asegúrese de estar en la carpeta raíz del Ejercicio 5 y ejecute:
+## Frecuencias de comando por defecto
+- 650 Hz -> Adelante
+- 900 Hz -> Atrás
+- 1150 Hz -> Izquierda
+- 1400 Hz -> Derecha
+
+## Parámetros para el análisis
+- `SAMPLE_RATE_HZ`
+- `FFT_SIZE`
+- `ADC_WIDTH_USED`
+
+## Compilar y flashear
 ```bash
-source ~/.zprofile && source ~/.zshrc && get_esp32 && idf.py build && idf.py flash -p /dev/cu.usbserial-110 monitor
+source ~/.zprofile && source ~/.zshrc && get_esp32
+idf.py set-target esp32s3
+idf.py build
+idf.py -p /dev/<PORT> flash monitor
 ```
-Nota: Reemplazar `/dev/cu.usbserial-110` por puerto específico si es diferente.
+
