@@ -22,6 +22,7 @@
 #define SAMPLE_RATE_HZ          8000U // esta cambiar para analisis probar con 4000, 8000, 12000
 #define FFT_SIZE                512U     // esta cambiar para analisis probar con 256, 512, 1024
 #define ADC_WIDTH_USED          ADC_BITWIDTH_12 //  esta cambiar para analiss probar con ADC_BITWIDTH_9, ADC_BITWIDTH_10, ADC_BITWIDTH_11, ADC_BITWIDTH_12
+//#define ANALYSIS_BITWIDTH       11  // PARA ANALISIS ADC
 #define ADC_ATTEN_USED          ADC_ATTEN_DB_12 
 
 // Tone map (Hz)
@@ -270,6 +271,9 @@ static float acquire_samples(float *out, size_t n, uint32_t fs_hz)
     const int64_t period_us = 1000000LL / (int64_t)fs_hz;
     int raw = 0;
 
+    //para analisis
+    //const int shift = 12 - ANALYSIS_BITWIDTH;
+
     int64_t t_start = esp_timer_get_time();
     int64_t next_t = t_start;
 
@@ -277,6 +281,11 @@ static float acquire_samples(float *out, size_t n, uint32_t fs_hz)
         while (esp_timer_get_time() < next_t) {
         }
         adc_oneshot_read(adc_handle, MIC_ADC_CHANNEL, &raw);
+        //analisis
+        //int simulated = raw >> shift;
+        //int quantized = simulated << shift;
+        //out[i] = (float)quantized;
+
         out[i] = (float)raw;
         next_t += period_us;
     }
