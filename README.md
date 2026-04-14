@@ -35,3 +35,4 @@
 
 Cada laboratorio tiene su propia carpeta con su respectivo código fuente, archivos de configuración y reportes de salida.
 ### [Laboratorio 1: MCU, sensores y actuadores](./Lab_1)
+### [Laboratorio 2: Aplicación Web y AI](./Lab_2)
