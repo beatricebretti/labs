@@ -142,14 +142,25 @@ void app_main(void)
 
         if (!pic) {
             ESP_LOGE(TAG, "Camera capture failed");
+            vTaskDelay(5000 / portTICK_PERIOD_MS);
             continue;
         }
 
-        // Hex print loop for Ejercicio 7
+        printf("BEGIN_IMAGE\n");
+        printf("WIDTH=96\n");
+        printf("HEIGHT=96\n");
+        printf("LEN=%d\n", pic->len);
+        printf("DATA=");
+
         for (int i = 0; i < pic->len; i++) {
-            printf("0x%02X,", pic->buf[i]);
+            printf("0x%02X", pic->buf[i]);
+
+            if (i < pic->len - 1) {
+                printf(",");
+            }
         }
-        printf("\n");
+
+        printf("\nEND_IMAGE\n");
 
         esp_camera_fb_return(pic);
 
