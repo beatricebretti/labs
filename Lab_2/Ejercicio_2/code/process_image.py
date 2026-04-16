@@ -5,33 +5,27 @@ from PIL import Image, ImageDraw, ImageOps
 def procesar_imagen(ruta_entrada, ruta_base_salida):
     try:
         with Image.open(ruta_entrada) as img:
-            # 1. CORRECCIÓN DE ROTACIÓN: Lee los metadatos y endereza la foto
+            # 1. CORRECCIÓN DE ROTACIÓN
             img = ImageOps.exif_transpose(img)
             
-            # 2. Resize to 512x512 maintaining aspect ratio (padding with black bars)
-            img = ImageOps.pad(img, (512, 512), color=0)
+            # 2. CAMBIO CRÍTICO: Usar 'fit' en lugar de 'pad'
+            # 'fit' recorta la imagen para que llene exactamente 512x512 sin bordes negros.
+            img = ImageOps.fit(img, (512, 512), centering=(0.5, 0.5))
             
-            # 3. Convert to grayscale (B&W)
+            # 3. Convertir a escala de grises
             img = img.convert('L')
             
-            # --- Save Clean Version (Training) ---
+            # --- Guardar versión limpia ---
             img.save(ruta_base_salida)
             
-            # --- Generate ROI Version ---
+            # --- Generar versión ROI con cuadrantes ---
             draw = ImageDraw.Draw(img)
-            alto = 512
-            linea_1 = 170
-            linea_2 = 341
+            linea_1, linea_2 = 170, 341
+            draw.line([(linea_1, 0), (linea_1, 512)], fill=255, width=2)
+            draw.line([(linea_2, 0), (linea_2, 512)], fill=255, width=2)
             
-            # Line between quadrant 1 and 2
-            draw.line([(linea_1, 0), (linea_1, alto)], fill=255, width=2)
-            # Line between quadrant 2 and 3
-            draw.line([(linea_2, 0), (linea_2, alto)], fill=255, width=2)
-            
-            # Save ROI result
             base, ext = os.path.splitext(ruta_base_salida)
-            ruta_roi_salida = f"{base}_ROI{ext}"
-            img.save(ruta_roi_salida)
+            img.save(f"{base}_ROI{ext}")
 
     except Exception as e:
         print(f"Error procesando {ruta_entrada}: {e}")
