@@ -1,5 +1,7 @@
 # Ejercicio 1
-Aplicación web para controlar el vehículo del Lab 1 usando un ESP32-S3, L298N y 2 motores DC.
+Se demostró el funcionamiento a un ayudante del curso.
+
+Aplicación web para controlar el vehículo del Lab 1 usando un ESP32-S3, L298N y 2 motores DC. 
 
 - Acceso WIFI local (hosteado por ESP32).
 - Acceso a interfaz web `http://192.168.4.1 `.
