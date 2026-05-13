@@ -36,3 +36,5 @@
 Cada laboratorio tiene su propia carpeta con su respectivo código fuente, archivos de configuración y reportes de salida.
 ### [Laboratorio 1: MCU, sensores y actuadores](./Lab_1)
 ### [Laboratorio 2: Aplicación Web y AI](./Lab_2)
+
+Colab para graficos: https://colab.research.google.com/drive/1GPDrohHpv0Xv1_Bh7W6eLaPiBlCxK4MH?usp=sharing
