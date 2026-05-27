@@ -1,0 +1,2 @@
+source /Users/beatricevaldesbretti/esp/labs/Lab_1/Ejercicio_5/code/build/bootloader/gdbinit/symbols
+source /Users/beatricevaldesbretti/esp/labs/Lab_1/Ejercicio_5/code/build/bootloader/gdbinit/connect

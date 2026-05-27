@@ -1,0 +1,20 @@
+Command: /Users/beatricevaldesbretti/esp/idf-tools/python_env/idf5.5_py3.13_env/bin/python /Users/beatricevaldesbretti/esp/esp-idf/tools/idf_monitor.py -p /dev/cu.usbmodem5B8F0208391 -b 115200 --toolchain-prefix xtensa-esp32s3-elf- --target esp32s3 --revision 0 /Users/beatricevaldesbretti/esp/labs/Lab_2/Ejercicio_4/code/build/code.elf /Users/beatricevaldesbretti/esp/labs/Lab_2/Ejercicio_4/code/build/bootloader/bootloader.elf -m '/Users/beatricevaldesbretti/esp/idf-tools/python_env/idf5.5_py3.13_env/bin/python' '/Users/beatricevaldesbretti/esp/esp-idf/tools/idf.py'
+[0;33m--- esp-idf-monitor 1.9.0 on /dev/cu.usbmodem5B8F0208391 115200[0m
+[0;33m--- Quit: Ctrl+] | Menu: Ctrl+T | Help: Ctrl+T followed by Ctrl+H[0m
+[0m--- 0x403c8700: [0;33m_stext[0m[0m at [0;32m??[0m[0m:[1;31m?[0m
+[0m--- 0x403c8924: [0;33mcall_start_cpu0[0m[0m at [0;32m/Users/beatricevaldesbretti/esp/esp-idf/components/bootloader/subproject/main/bootloader_start.c[0m[0m:[1;31m27[0m
+[0m--- 0x4200b9be: [0;33mtask_wdt_timeout_handling[0m[0m at [0;32m/Users/beatricevaldesbretti/esp/esp-idf/components/esp_system/task_wdt/task_wdt.c[0m[0m:[1;31m436[0m
+[0m--- 0x4200bdd4: [0;33mtask_wdt_isr[0m[0m at [0;32m/Users/beatricevaldesbretti/esp/esp-idf/components/esp_system/task_wdt/task_wdt.c[0m[0m:[1;31m509[0m
+[0m--- 0x40376db9: [0;33m_xt_lowint1[0m[0m at [0;32m/Users/beatricevaldesbretti/esp/esp-idf/components/xtensa/xtensa_vectors.S[0m[0m:[1;31m1240[0m
+[0m--- 0x42009d9a: [0;33mbenchmark_mem_rw_seconds_per_byte[0m[0m at [0;32m/Users/beatricevaldesbretti/esp/labs/Lab_2/Ejercicio_4/code/main/code.c[0m[0m:[1;31m167[0m
+[0m--- 0x4200a02d: [0;33mapp_main[0m[0m at [0;32m/Users/beatricevaldesbretti/esp/labs/Lab_2/Ejercicio_4/code/main/code.c[0m[0m:[1;31m248[0m
+[0m--- 0x42014034: [0;33mmain_task[0m[0m at [0;32m/Users/beatricevaldesbretti/esp/esp-idf/components/freertos/app_startup.c[0m[0m:[1;31m208[0m
+[0m--- 0x4037a7fd: [0;33mvPortTaskWrapper[0m[0m at [0;32m/Users/beatricevaldesbretti/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c[0m[0m:[1;31m139[0m
+[0m--- 0x4200b9be: [0;33mtask_wdt_timeout_handling[0m[0m at [0;32m/Users/beatricevaldesbretti/esp/esp-idf/components/esp_system/task_wdt/task_wdt.c[0m[0m:[1;31m436[0m
+[0m--- 0x4200bdd4: [0;33mtask_wdt_isr[0m[0m at [0;32m/Users/beatricevaldesbretti/esp/esp-idf/components/esp_system/task_wdt/task_wdt.c[0m[0m:[1;31m509[0m
+[0m--- 0x40376db9: [0;33m_xt_lowint1[0m[0m at [0;32m/Users/beatricevaldesbretti/esp/esp-idf/components/xtensa/xtensa_vectors.S[0m[0m:[1;31m1240[0m
+[0m--- 0x42009d9a: [0;33mbenchmark_mem_rw_seconds_per_byte[0m[0m at [0;32m/Users/beatricevaldesbretti/esp/labs/Lab_2/Ejercicio_4/code/main/code.c[0m[0m:[1;31m167[0m
+[0m--- 0x4200a02d: [0;33mapp_main[0m[0m at [0;32m/Users/beatricevaldesbretti/esp/labs/Lab_2/Ejercicio_4/code/main/code.c[0m[0m:[1;31m248[0m
+[0m--- 0x42014034: [0;33mmain_task[0m[0m at [0;32m/Users/beatricevaldesbretti/esp/esp-idf/components/freertos/app_startup.c[0m[0m:[1;31m208[0m
+[0m--- 0x4037a7fd: [0;33mvPortTaskWrapper[0m[0m at [0;32m/Users/beatricevaldesbretti/esp/esp-idf/components/freertos/FreeRTOS-Kernel/portable/xtensa/port.c[0m[0m:[1;31m139[0m
+[0m

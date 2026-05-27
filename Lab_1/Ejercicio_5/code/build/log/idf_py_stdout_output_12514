@@ -1,0 +1,587 @@
+Command: /Users/beatricevaldesbretti/esp/idf-tools/python_env/idf5.5_py3.13_env/bin/python /Users/beatricevaldesbretti/esp/esp-idf/tools/idf_monitor.py -p /dev/cu.usbmodem101 -b 115200 --toolchain-prefix xtensa-esp32s3-elf- --target esp32s3 --revision 0 /Users/beatricevaldesbretti/esp/labs/Lab_1/Ejercicio_5/code/build/code.elf /Users/beatricevaldesbretti/esp/labs/Lab_1/Ejercicio_5/code/build/bootloader/bootloader.elf -m '/Users/beatricevaldesbretti/esp/idf-tools/python_env/idf5.5_py3.13_env/bin/python' '/Users/beatricevaldesbretti/esp/esp-idf/tools/idf.py' '-p' '/dev/cu.usbmodem101'
+ESP-ROM:esp32s3-20210327
+Build:Mar 27 2021
+rst:0x15 (USB_UART_CHIP_RESET),boot:0x8 (SPI_FAST_FLASH_BOOT)
+Saved PC:0x4003555c
+SPIWP:0xee
+mode:DIO, clock div:1
+load:0x3fce2820,len:0x14f0
+load:0x403c8700,len:0xd24
+load:0x403cb700,len:0x2ef0
+entry 0x403c8924
+[0;32mI (24) boot: ESP-IDF v5.5.3 2nd stage bootloader[0m
+[0;32mI (24) boot: compile time Apr 10 2026 20:36:44[0m
+[0;32mI (25) boot: Multicore bootloader[0m
+[0;32mI (25) boot: chip revision: v0.2[0m
+[0;32mI (27) boot: efuse block revision: v1.4[0m
+[0;32mI (31) boot.esp32s3: Boot SPI Speed : 80MHz[0m
+[0;32mI (35) boot.esp32s3: SPI Mode       : DIO[0m
+[0;32mI (39) boot.esp32s3: SPI Flash Size : 2MB[0m
+[0;32mI (42) boot: Enabling RNG early entropy source...[0m
+[0;32mI (47) boot: Partition Table:[0m
+[0;32mI (50) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (56) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (62) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (69) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (75) boot: End of partition table[0m
+[0;32mI (79) esp_image: segment 0: paddr=00010020 vaddr=3c020020 size=0b6dch ( 46812) map[0m
+[0;32mI (94) esp_image: segment 1: paddr=0001b704 vaddr=3fc92600 size=02fe8h ( 12264) load[0m
+[0;32mI (97) esp_image: segment 2: paddr=0001e6f4 vaddr=40374000 size=01924h (  6436) load[0m
+[0;32mI (102) esp_image: segment 3: paddr=00020020 vaddr=42000020 size=189e8h (100840) map[0m
+[0;32mI (126) esp_image: segment 4: paddr=00038a10 vaddr=40375924 size=0cc38h ( 52280) load[0m
+[0;32mI (138) esp_image: segment 5: paddr=00045650 vaddr=50000000 size=00020h (    32) load[0m
+[0;32mI (144) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (144) boot: Disabling RNG early entropy source...[0m
+[0;32mI (156) cpu_start: Multicore app[0m
+[0;32mI (164) cpu_start: GPIO 44 and 43 are used as console UART I/O pins[0m
+[0;32mI (165) cpu_start: Pro cpu start user code[0m
+[0;32mI (165) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (167) app_init: Application information:[0m
+[0;32mI (170) app_init: Project name:     code[0m
+[0;32mI (174) app_init: App version:      6d1b11e-dirty[0m
+[0;32mI (178) app_init: Compile time:     Apr 10 2026 20:36:35[0m
+[0;32mI (183) app_init: ELF file SHA256:  06a72b1ad...[0m
+[0;32mI (188) app_init: ESP-IDF:          v5.5.3[0m
+[0;32mI (192) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (195) efuse_init: Max chip rev:     v0.99 [0m
+[0;32mI (199) efuse_init: Chip rev:         v0.2[0m
+[0;32mI (203) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (210) heap_init: At 3FC97B60 len 00051BB0 (326 KiB): RAM[0m
+[0;32mI (215) heap_init: At 3FCE9710 len 00005724 (21 KiB): RAM[0m
+[0;32mI (220) heap_init: At 3FCF0000 len 00008000 (32 KiB): DRAM[0m
+[0;32mI (225) heap_init: At 600FE000 len 00001FE8 (7 KiB): RTCRAM[0m
+[0;32mI (231) spi_flash: detected chip: boya[0m
+[0;32mI (234) spi_flash: flash io: dio[0m
+[0;33mW (237) spi_flash: Detected size(8192k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (249) sleep_gpio: Configure to isolate all GPIO pins in sleep state[0m
+[0;32mI (255) sleep_gpio: Enable automatic switching of GPIO sleep configuration[0m
+[0;32mI (262) main_task: Started on CPU0[0m
+[0;32mI (272) main_task: Calling app_main()[0m
+[0;32mI (272) Ejercicio_5: Starting Ejercicio_5: audio control with FFT[0m
+[0;32mI (272) Ejercicio_5: GPIO mic=1, ENA=15 IN1=4 IN2=5 IN3=6 IN4=7 ENB=16[0m
+[0;32mI (282) Ejercicio_5: Fs=8000 Hz, N=512, theoretical delta_f=15.625 Hz, frame_ms=64.00 ms[0m
+[0;32mI (292) Ejercicio_5: Commands: 650Hz=ADELANTE, 900Hz=ATRAS, 1150Hz=IZQUIERDA, 1400Hz=DERECHA[0m
+peak_freq=907.26Hz, peak_mag=1435.46, noise_avg=519.70, rms=48.19, cmd=STOP, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=3217.76, noise_avg=555.32, rms=63.77, cmd=STOP, actual_fs=8008.88, delta_f=15.64
+peak_freq=672.62Hz, peak_mag=1605.53, noise_avg=520.37, rms=49.73, cmd=STOP, actual_fs=8008.88, delta_f=15.64
+peak_freq=2487.10Hz, peak_mag=1460.37, noise_avg=508.15, rms=56.49, cmd=STOP, actual_fs=8008.76, delta_f=15.64
+peak_freq=672.61Hz, peak_mag=1157.07, noise_avg=446.50, rms=51.61, cmd=STOP, actual_fs=8008.76, delta_f=15.64
+peak_freq=563.12Hz, peak_mag=1101.73, noise_avg=475.53, rms=46.58, cmd=STOP, actual_fs=8008.88, delta_f=15.64
+peak_freq=500.56Hz, peak_mag=1243.70, noise_avg=468.04, rms=53.41, cmd=STOP, actual_fs=8008.88, delta_f=15.64
+peak_freq=2033.51Hz, peak_mag=1040.43, noise_avg=475.70, rms=50.63, cmd=STOP, actual_fs=8008.88, delta_f=15.64
+peak_freq=641.34Hz, peak_mag=18526.03, noise_avg=987.56, rms=191.97, cmd=STOP, actual_fs=8008.88, delta_f=15.64
+peak_freq=641.34Hz, peak_mag=39774.27, noise_avg=1059.64, rms=265.53, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=641.34Hz, peak_mag=20547.47, noise_avg=2959.62, rms=297.52, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=391.06Hz, peak_mag=22478.89, noise_avg=3531.97, rms=270.17, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=12805.77, noise_avg=2341.10, rms=203.82, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=12115.25, noise_avg=2614.93, rms=224.63, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=437.99Hz, peak_mag=16640.51, noise_avg=2106.47, rms=218.56, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=437.99Hz, peak_mag=16959.98, noise_avg=2316.14, rms=236.64, cmd=STOP, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=11314.80, noise_avg=2088.30, rms=175.53, cmd=STOP, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=15710.34, noise_avg=636.14, rms=122.74, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=406.70Hz, peak_mag=7280.89, noise_avg=1253.70, rms=169.40, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=9998.68, noise_avg=1856.27, rms=175.80, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=12852.65, noise_avg=1984.24, rms=206.84, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=531.84Hz, peak_mag=16088.26, noise_avg=2562.56, rms=242.68, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=531.84Hz, peak_mag=15062.36, noise_avg=2233.94, rms=224.69, cmd=STOP, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=17248.66, noise_avg=2131.04, rms=206.47, cmd=STOP, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=26355.31, noise_avg=838.30, rms=170.86, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+SPECTRUM_START
+bin,freq_hz,magnitude
+0,0.00,5091.4019
+1,15.64,7247.0938
+2,31.28,5723.7354
+3,46.93,320.7148
+4,62.57,1876.6396
+5,78.21,1761.9565
+6,93.85,1408.3318
+7,109.50,843.3082
+8,125.14,1609.5846
+9,140.78,1282.7449
+10,156.42,869.9686
+11,172.07,468.3167
+12,187.71,597.9547
+13,203.35,698.4318
+14,218.99,664.8478
+15,234.64,669.7191
+16,250.28,1596.6982
+17,265.92,1384.9462
+18,281.56,511.0165
+19,297.20,193.0016
+20,312.85,135.3166
+21,328.49,177.3129
+22,344.13,513.0186
+23,359.77,479.2448
+24,375.42,410.9687
+25,391.06,448.1198
+26,406.70,1310.1951
+27,422.34,1246.8214
+28,437.99,977.3215
+29,453.63,881.1725
+30,469.27,1152.9139
+31,484.91,1345.9431
+32,500.56,854.4882
+33,516.20,469.1966
+34,531.84,893.6225
+35,547.48,597.9334
+36,563.12,420.9455
+37,578.77,43.9701
+38,594.41,430.4992
+39,610.05,843.5927
+40,625.69,3291.6306
+41,641.34,22595.0527
+42,656.98,26355.3086
+43,672.62,6948.6675
+44,688.26,696.2040
+45,703.91,458.1060
+46,719.55,298.2531
+47,735.19,224.6456
+48,750.83,561.0110
+49,766.48,262.8286
+50,782.12,151.0080
+51,797.76,208.6860
+52,813.40,317.8375
+53,829.04,695.7524
+54,844.69,898.2039
+55,860.33,1211.6130
+56,875.97,992.2077
+57,891.61,398.6656
+58,907.26,100.8533
+59,922.90,76.6841
+60,938.54,713.1591
+61,954.18,1412.9584
+62,969.83,888.5981
+63,985.47,369.5460
+64,1001.11,123.8337
+65,1016.75,509.5573
+66,1032.40,877.1306
+67,1048.04,708.4135
+68,1063.68,673.1548
+69,1079.32,684.1733
+70,1094.96,441.4547
+71,1110.61,515.7175
+72,1126.25,685.9713
+73,1141.89,598.9468
+74,1157.53,544.7487
+75,1173.18,632.3250
+76,1188.82,296.1418
+77,1204.46,264.4002
+78,1220.10,916.4947
+79,1235.75,1376.0745
+80,1251.39,1072.2004
+81,1267.03,577.8282
+82,1282.67,829.0575
+83,1298.32,882.3571
+84,1313.96,359.8536
+85,1329.60,182.2294
+86,1345.24,391.3653
+87,1360.88,613.3279
+88,1376.53,613.1838
+89,1392.17,553.1490
+90,1407.81,601.8680
+91,1423.45,361.6277
+92,1439.10,117.8778
+93,1454.74,232.1915
+94,1470.38,466.2737
+95,1486.02,164.3044
+96,1501.67,154.5982
+97,1517.31,331.3474
+98,1532.95,238.0913
+99,1548.59,79.1102
+100,1564.24,185.4152
+101,1579.88,14.1098
+102,1595.52,292.9224
+103,1611.16,421.1953
+104,1626.80,348.2513
+105,1642.45,85.2204
+106,1658.09,295.4315
+107,1673.73,416.0674
+108,1689.37,419.1598
+109,1705.02,285.8206
+110,1720.66,224.3679
+111,1736.30,230.1416
+112,1751.94,512.7846
+113,1767.59,286.1333
+114,1783.23,360.8372
+115,1798.87,327.7668
+116,1814.51,129.6324
+117,1830.16,353.2913
+118,1845.80,456.5944
+119,1861.44,324.6582
+120,1877.08,279.3850
+121,1892.72,289.2346
+122,1908.37,323.5370
+123,1924.01,393.8101
+124,1939.65,233.3787
+125,1955.29,98.3765
+126,1970.94,186.4127
+127,1986.58,85.5559
+128,2002.22,224.7957
+129,2017.86,204.2263
+130,2033.51,85.4290
+131,2049.15,157.4812
+132,2064.79,207.5627
+133,2080.43,325.1661
+134,2096.08,271.1740
+135,2111.72,298.1858
+136,2127.36,242.4185
+137,2143.00,508.8686
+138,2158.64,513.0696
+139,2174.29,283.0864
+SPECTRUM_END
+peak_freq=656.98Hz, peak_mag=24848.81, noise_avg=2450.77, rms=263.58, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21800.53, noise_avg=2598.85, rms=251.13, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=19441.38, noise_avg=2072.84, rms=226.87, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21919.45, noise_avg=2249.68, rms=240.14, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21423.60, noise_avg=1962.35, rms=234.92, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21389.09, noise_avg=2096.55, rms=236.70, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21634.91, noise_avg=2258.36, rms=251.50, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=22292.12, noise_avg=2271.41, rms=247.83, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=24566.73, noise_avg=2687.41, rms=279.47, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=19505.40, noise_avg=2118.93, rms=222.44, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21984.93, noise_avg=2199.31, rms=242.55, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=23329.51, noise_avg=2250.21, rms=250.76, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=20215.33, noise_avg=1949.68, rms=218.69, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.99Hz, peak_mag=22180.81, noise_avg=2212.38, rms=241.51, cmd=ADELANTE, actual_fs=8009.01, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=25298.43, noise_avg=2615.64, rms=266.84, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21074.63, noise_avg=2339.76, rms=240.32, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=22300.42, noise_avg=2506.32, rms=262.56, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21847.73, noise_avg=2303.49, rms=241.46, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=17416.10, noise_avg=1688.24, rms=204.38, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21480.49, noise_avg=2188.33, rms=239.19, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.97Hz, peak_mag=18681.01, noise_avg=1961.91, rms=239.90, cmd=ADELANTE, actual_fs=8008.76, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=23410.06, noise_avg=2326.10, rms=255.14, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=19887.96, noise_avg=1934.60, rms=220.48, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=23535.36, noise_avg=2262.56, rms=262.33, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=26791.21, noise_avg=2427.93, rms=282.15, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+SPECTRUM_START
+bin,freq_hz,magnitude
+0,0.00,8621.4453
+1,15.64,11763.0303
+2,31.28,9884.5957
+3,46.93,1281.5461
+4,62.57,2691.1499
+5,78.21,1728.7357
+6,93.85,734.0908
+7,109.50,1695.7224
+8,125.14,1033.7479
+9,140.78,793.8224
+10,156.42,956.3714
+11,172.07,1080.3782
+12,187.71,1516.7632
+13,203.35,1467.6447
+14,218.99,1355.9365
+15,234.64,1292.0825
+16,250.28,1145.8099
+17,265.92,3890.1777
+18,281.56,2413.7205
+19,297.20,895.0898
+20,312.85,887.0817
+21,328.49,630.1315
+22,344.13,2012.8235
+23,359.77,3833.9355
+24,375.42,2737.3762
+25,391.06,1492.9467
+26,406.70,626.0527
+27,422.34,1781.6698
+28,437.99,8408.3467
+29,453.63,11115.6562
+30,469.27,4915.3662
+31,484.91,999.1536
+32,500.56,3078.8708
+33,516.20,4025.3406
+34,531.84,5865.2231
+35,547.48,7773.9253
+36,563.12,2923.2373
+37,578.77,2619.1926
+38,594.41,1095.8428
+39,610.05,60.2803
+40,625.69,5042.7896
+41,641.34,24372.1406
+42,656.98,26791.2148
+43,672.62,7102.4570
+44,688.26,1199.5725
+45,703.91,1733.6497
+46,719.55,1405.3311
+47,735.19,1354.6357
+48,750.83,2739.8308
+49,766.48,1120.9636
+50,782.12,2628.8958
+51,797.76,4032.1628
+52,813.40,3406.7151
+53,829.04,2326.1877
+54,844.69,554.7870
+55,860.33,386.3623
+56,875.97,1175.8485
+57,891.61,3906.5449
+58,907.26,4858.6357
+59,922.90,3709.3586
+60,938.54,1900.2612
+61,954.18,2594.7417
+62,969.83,3261.2742
+63,985.47,2574.8521
+64,1001.11,1286.3280
+65,1016.75,678.3973
+66,1032.40,647.1396
+67,1048.04,1126.1307
+68,1063.68,1422.8534
+69,1079.32,1548.4696
+70,1094.96,767.1445
+71,1110.61,743.6992
+72,1126.25,741.4288
+73,1141.89,311.5022
+74,1157.53,3025.7561
+75,1173.18,5066.5503
+76,1188.82,2007.2028
+77,1204.46,1320.3262
+78,1220.10,602.5155
+79,1235.75,1252.5872
+80,1251.39,3388.1196
+81,1267.03,1933.7303
+82,1282.67,2271.1755
+83,1298.32,1433.1008
+84,1313.96,1168.8627
+85,1329.60,521.1987
+86,1345.24,2012.8002
+87,1360.88,1771.0610
+88,1376.53,545.0391
+89,1392.17,209.6608
+90,1407.81,1773.9198
+91,1423.45,740.8131
+92,1439.10,3598.3440
+93,1454.74,3582.6658
+94,1470.38,1553.1542
+95,1486.02,758.6501
+96,1501.67,803.9285
+97,1517.31,1160.2659
+98,1532.95,784.0345
+99,1548.59,1320.8865
+100,1564.24,2247.9751
+101,1579.88,1107.9758
+102,1595.52,1303.9048
+103,1611.16,1272.7130
+104,1626.80,1562.6954
+105,1642.45,775.6341
+106,1658.09,168.6935
+107,1673.73,435.1873
+108,1689.37,1035.6804
+109,1705.02,4454.9565
+110,1720.66,3629.7573
+111,1736.30,2174.2742
+112,1751.94,2351.9932
+113,1767.59,1889.9341
+114,1783.23,2519.6079
+115,1798.87,3256.6521
+116,1814.51,1943.1803
+117,1830.16,1267.2434
+118,1845.80,2337.2578
+119,1861.44,2160.2568
+120,1877.08,1172.1437
+121,1892.72,1687.5989
+122,1908.37,2063.2292
+123,1924.01,2403.8672
+124,1939.65,2292.0076
+125,1955.29,2761.6687
+126,1970.94,525.4324
+127,1986.58,824.0510
+128,2002.22,1634.4594
+129,2017.86,2189.8140
+130,2033.51,1293.4755
+131,2049.15,2366.6890
+132,2064.79,5140.9165
+133,2080.43,4509.4839
+134,2096.08,475.1196
+135,2111.72,698.9020
+136,2127.36,639.2421
+137,2143.00,745.9834
+138,2158.64,1209.1361
+139,2174.29,2626.2024
+SPECTRUM_END
+peak_freq=656.98Hz, peak_mag=21078.04, noise_avg=2053.62, rms=231.44, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=20911.94, noise_avg=2102.15, rms=249.80, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=23928.65, noise_avg=2451.28, rms=249.06, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=22307.84, noise_avg=2039.20, rms=256.83, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.97Hz, peak_mag=22853.49, noise_avg=2151.93, rms=253.07, cmd=ADELANTE, actual_fs=8008.76, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21847.81, noise_avg=2357.56, rms=236.31, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=23768.48, noise_avg=2646.94, rms=277.32, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=20535.69, noise_avg=2083.45, rms=238.71, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=17797.89, noise_avg=2168.97, rms=229.16, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=22648.44, noise_avg=2435.13, rms=243.64, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=22734.51, noise_avg=2303.64, rms=239.39, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=25172.48, noise_avg=2729.86, rms=275.66, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=23723.67, noise_avg=2552.83, rms=256.40, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21564.52, noise_avg=1995.84, rms=226.22, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.99Hz, peak_mag=23008.38, noise_avg=2274.83, rms=250.15, cmd=ADELANTE, actual_fs=8009.01, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21846.71, noise_avg=2389.28, rms=249.72, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21313.69, noise_avg=2299.58, rms=240.86, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.99Hz, peak_mag=24626.88, noise_avg=2633.89, rms=267.63, cmd=ADELANTE, actual_fs=8009.01, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21115.14, noise_avg=2104.73, rms=250.97, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=20543.15, noise_avg=1985.72, rms=222.94, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21122.29, noise_avg=2051.33, rms=232.57, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=22645.04, noise_avg=2193.08, rms=244.57, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.99Hz, peak_mag=19769.49, noise_avg=1981.40, rms=220.81, cmd=ADELANTE, actual_fs=8009.01, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21427.43, noise_avg=2261.99, rms=232.40, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21289.59, noise_avg=2271.14, rms=239.43, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+SPECTRUM_START
+bin,freq_hz,magnitude
+0,0.00,6790.3018
+1,15.64,11119.0566
+2,31.28,8851.2832
+3,46.93,1289.2133
+4,62.57,1643.5808
+5,78.21,2975.5854
+6,93.85,1518.1173
+7,109.50,421.4284
+8,125.14,845.2708
+9,140.78,1762.7189
+10,156.42,1487.9469
+11,172.07,959.5629
+12,187.71,784.2154
+13,203.35,764.7018
+14,218.99,759.0648
+15,234.64,720.8212
+16,250.28,2168.9834
+17,265.92,3938.1064
+18,281.56,3049.1851
+19,297.20,1547.0389
+20,312.85,887.0534
+21,328.49,350.0302
+22,344.13,1163.7657
+23,359.77,1934.2003
+24,375.42,1297.1406
+25,391.06,3352.2065
+26,406.70,3465.8313
+27,422.34,1728.1384
+28,437.99,5134.6270
+29,453.63,7542.9395
+30,469.27,1466.1328
+31,484.91,3993.3069
+32,500.56,3079.1848
+33,516.20,3873.9971
+34,531.84,7172.1426
+35,547.48,8818.1152
+36,563.12,3270.7620
+37,578.77,2081.2446
+38,594.41,1503.8236
+39,610.05,706.6697
+40,625.69,2357.1741
+41,641.34,18370.7227
+42,656.98,21289.5898
+43,672.62,5287.0928
+44,688.26,803.2418
+45,703.91,370.3991
+46,719.55,1174.9635
+47,735.19,2036.9877
+48,750.83,3278.9333
+49,766.48,3388.8086
+50,782.12,2558.1548
+51,797.76,2412.7375
+52,813.40,3000.1899
+53,829.04,2053.5674
+54,844.69,370.2655
+55,860.33,1166.0336
+56,875.97,1260.5796
+57,891.61,2125.0405
+58,907.26,2500.2178
+59,922.90,1718.3542
+60,938.54,4322.6084
+61,954.18,2526.7263
+62,969.83,2166.4199
+63,985.47,1725.4707
+64,1001.11,870.8021
+65,1016.75,990.6373
+66,1032.40,1520.4423
+67,1048.04,1146.2384
+68,1063.68,213.4763
+69,1079.32,988.6292
+70,1094.96,1858.6375
+71,1110.61,2942.1946
+72,1126.25,3486.5286
+73,1141.89,3171.0232
+74,1157.53,1415.4381
+75,1173.18,1941.4307
+76,1188.82,667.2379
+77,1204.46,2772.7905
+78,1220.10,2520.1746
+79,1235.75,1882.6154
+80,1251.39,2208.8618
+81,1267.03,1830.8127
+82,1282.67,2351.6133
+83,1298.32,2665.3914
+84,1313.96,681.6140
+85,1329.60,238.3944
+86,1345.24,1869.4489
+87,1360.88,3275.2559
+88,1376.53,2195.0288
+89,1392.17,1084.5210
+90,1407.81,441.2162
+91,1423.45,677.9689
+92,1439.10,2571.0142
+93,1454.74,4877.6279
+94,1470.38,2422.6335
+95,1486.02,2277.9309
+96,1501.67,2073.4116
+97,1517.31,1021.2742
+98,1532.95,1362.9209
+99,1548.59,1703.3043
+100,1564.24,1267.5546
+101,1579.88,1314.1512
+102,1595.52,1442.6731
+103,1611.16,593.8520
+104,1626.80,1676.4470
+105,1642.45,1087.9720
+106,1658.09,890.1233
+107,1673.73,1875.7040
+108,1689.37,1391.8304
+109,1705.02,1562.8221
+110,1720.66,4367.7808
+111,1736.30,4084.9963
+112,1751.94,2337.4849
+113,1767.59,1482.7684
+114,1783.23,900.3423
+115,1798.87,2290.0938
+116,1814.51,3499.7817
+117,1830.16,1704.3944
+118,1845.80,2523.6355
+119,1861.44,2843.2820
+120,1877.08,965.4224
+121,1892.72,1444.7749
+122,1908.37,2801.8850
+123,1924.01,1694.8635
+124,1939.65,845.7092
+125,1955.29,837.8694
+126,1970.94,504.4484
+127,1986.58,1936.1780
+128,2002.22,1768.9486
+129,2017.86,928.6200
+130,2033.51,501.7816
+131,2049.15,1579.8245
+132,2064.79,1753.0522
+133,2080.43,2883.6873
+134,2096.08,2544.6487
+135,2111.72,133.1672
+136,2127.36,1073.2240
+137,2143.00,857.5543
+138,2158.64,385.8363
+139,2174.29,2421.9675
+SPECTRUM_END
+peak_freq=656.98Hz, peak_mag=25444.38, noise_avg=2498.23, rms=246.89, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=22134.24, noise_avg=2294.68, rms=241.00, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=23911.78, noise_avg=2275.77, rms=246.68, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.97Hz, peak_mag=21356.01, noise_avg=2259.48, rms=252.79, cmd=ADELANTE, actual_fs=8008.76, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=24223.86, noise_avg=2442.21, rms=258.73, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=24175.55, noise_avg=2439.36, rms=256.57, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=22716.71, noise_avg=2265.76, rms=257.19, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21623.14, noise_avg=2307.59, rms=254.45, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=22840.23, noise_avg=2182.38, rms=236.89, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=22780.07, noise_avg=2314.26, rms=255.40, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=25436.99, noise_avg=2701.35, rms=259.04, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.99Hz, peak_mag=21690.34, noise_avg=2119.08, rms=240.01, cmd=ADELANTE, actual_fs=8009.01, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=22421.15, noise_avg=2222.28, rms=234.46, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=22467.62, noise_avg=2256.74, rms=255.14, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=25201.09, noise_avg=2424.81, rms=265.34, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=18988.53, noise_avg=2110.97, rms=226.80, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=24132.92, noise_avg=2503.51, rms=260.35, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.97Hz, peak_mag=24555.51, noise_avg=2413.04, rms=268.27, cmd=ADELANTE, actual_fs=8008.76, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=23797.04, noise_avg=2332.77, rms=262.45, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
+peak_freq=656.98Hz, peak_mag=21937.61, noise_avg=2446.77, rms=255.21, cmd=ADELANTE, actual_fs=8008.88, delta_f=15.64
