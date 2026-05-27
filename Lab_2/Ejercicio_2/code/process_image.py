@@ -42,8 +42,7 @@ def procesar_directorio(input_dir, output_dir):
         ruta_abs_entrada = os.path.join(input_dir, nombre_archivo)
         
         # NUEVO NOMBRE: "celular_001.jpg", "celular_002.jpg", etc.
-        #nuevo_nombre = f"celular_{i:03d}.jpg"
-        nuevo_nombre = f"esp_{i:03d}.jpg"
+        nuevo_nombre = f"celular_{i:03d}.jpg"
         ruta_abs_salida = os.path.join(output_dir, nuevo_nombre)
         
         procesar_imagen(ruta_abs_entrada, ruta_abs_salida)
