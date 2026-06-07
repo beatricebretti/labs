@@ -1,5 +1,7 @@
 # Ejercicio 3 — Integrando la cámara 
 
+[LINK VIDEO c:](https://drive.google.com/file/d/1PLHkPhikt_EPhfmtRhc-O3zNhFr7B-q4/view?usp=share_link)
+
 Detección de personas en tiempo real con ESP32-CAM (módulo AI-Thinker).
 
 - `CLI_ONLY_INFERENCE 0` en `main/esp_main.h` 
