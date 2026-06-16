@@ -1,0 +1,2 @@
+source /home/simon/labs/Lab_1/Ejercicio_8/code/build/bootloader/gdbinit/symbols
+source /home/simon/labs/Lab_1/Ejercicio_8/code/build/bootloader/gdbinit/connect
