@@ -1,0 +1,10 @@
+-Wno-frame-address
+-mlongcalls
+-fno-builtin-memcpy
+-fno-builtin-memset
+-fno-builtin-bzero
+-mdisable-hardware-atomics
+"-specs=/Users/matiasghf/Desktop/2026-1/SE/labs/Lab_1/Ejercicio_7/code/build/specs/picolibc.specs"
+-mfix-esp32-psram-cache-issue
+-mfix-esp32-psram-cache-strategy=memw
+-fno-rtti
