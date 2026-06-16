@@ -1,7 +1,7 @@
 {
     "version":            "1.3",
     "project_name":       "sumo_robot",
-    "project_version":    "c818edb",
+    "project_version":    "8aa9b7d-dirty",
     "project_path":       "/home/simon/labs/Lab_3/Ejercicio_5/code",
     "idf_path":           "/home/simon/esp/idf/esp-idf",
     "build_dir":          "/home/simon/labs/Lab_3/Ejercicio_5/code/build",
@@ -1775,12 +1775,12 @@
             "dir": "/home/simon/labs/Lab_3/Ejercicio_5/code/main",
             "type": "LIBRARY",
             "lib": "__idf_main",
-            "reqs": [ "esp_wifi", "esp_event", "esp_netif", "nvs_flash", "esp_http_server", "esp_driver_gpio", "esp_driver_ledc", "esp_timer" ],
+            "reqs": [ "esp_wifi", "esp_event", "esp_netif", "nvs_flash", "esp_http_server", "esp_driver_gpio", "esp_driver_ledc", "esp_timer", "esp_adc" ],
             "priv_reqs": [],
             "managed_reqs": [],
             "managed_priv_reqs": [],
             "file": "/home/simon/labs/Lab_3/Ejercicio_5/code/build/esp-idf/main/libmain.a",
-            "sources": [ "/home/simon/labs/Lab_3/Ejercicio_5/code/main/main.cc", "/home/simon/labs/Lab_3/Ejercicio_5/code/main/main_functions.cc", "/home/simon/labs/Lab_3/Ejercicio_5/code/main/motor_control.c", "/home/simon/labs/Lab_3/Ejercicio_5/code/main/web_server.c" ],
+            "sources": [ "/home/simon/labs/Lab_3/Ejercicio_5/code/main/main.cc", "/home/simon/labs/Lab_3/Ejercicio_5/code/main/main_functions.cc", "/home/simon/labs/Lab_3/Ejercicio_5/code/main/motor_control.c", "/home/simon/labs/Lab_3/Ejercicio_5/code/main/web_server.c", "/home/simon/labs/Lab_3/Ejercicio_5/code/main/audio_control.cc" ],
             "include_dirs": [ "." ]
         },
         "mbedtls": {
@@ -3927,7 +3927,7 @@
             "dir": "/home/simon/labs/Lab_3/Ejercicio_5/code/main",
             "source": "project_components",
             "lib": "__idf_main",
-            "reqs": [ "esp_wifi", "esp_event", "esp_netif", "nvs_flash", "esp_http_server", "esp_driver_gpio", "esp_driver_ledc", "esp_timer" ],
+            "reqs": [ "esp_wifi", "esp_event", "esp_netif", "nvs_flash", "esp_http_server", "esp_driver_gpio", "esp_driver_ledc", "esp_timer", "esp_adc" ],
             "priv_reqs": [],
             "managed_reqs": [],
             "managed_priv_reqs": [],

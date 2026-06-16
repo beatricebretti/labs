@@ -1,0 +1,231 @@
+Command: /home/simon/esp/idf-tools/python_env/idf6.1_py3.12_env/bin/python /home/simon/esp/idf/esp-idf/tools/idf_monitor.py -p /dev/ttyACM0 -b 115200 --toolchain-prefix xtensa-esp32-elf- --target esp32 --revision 0 /home/simon/labs/Lab_3/Ejercicio_5/code/build/sumo_robot.elf /home/simon/labs/Lab_3/Ejercicio_5/code/build/bootloader/bootloader.elf -m '/home/simon/esp/idf-tools/python_env/idf6.1_py3.12_env/bin/python' '/home/simon/esp/idf/esp-idf/tools/idf.py' '-p' '/dev/ttyACM0'
+ets Jul 29 2019 12:21:46
+
+rst:0x1 (POWERON_RESET),boot:0x13 (SPI_FAST_FLASH_BOOT)
+configsip: 0, SPIWP:0xee
+clk_drv:0x00,q_drv:0x00,d_drv:0x00,cs0_drv:0x00,hd_drv:0x00,wp_drv:0x00
+mode:DIO, clock div:2
+load:0x3fff0040,len:6272
+load:0x40078000,len:15848
+load:0x40080400,len:3920
+entry 0x40080644
+[0;32mI (27) boot: ESP-IDF v6.1-dev-2938-g12f36a021f 2nd stage bootloader[0m
+[0;32mI (27) boot: compile time Jun 10 2026 15:45:33[0m
+[0;32mI (28) boot: Multicore bootloader[0m
+[0;32mI (30) boot: chip revision: v3.1[0m
+[0;32mI (33) boot.esp32: SPI Speed      : 40MHz[0m
+[0;32mI (37) boot.esp32: SPI Mode       : DIO[0m
+[0;32mI (40) boot.esp32: SPI Flash Size : 2MB[0m
+[0;32mI (44) boot: Enabling RNG early entropy source...[0m
+[0;32mI (49) boot: Partition Table:[0m
+[0;32mI (51) boot: ## Label            Usage          Type ST Offset   Length[0m
+[0;32mI (57) boot:  0 nvs              WiFi data        01 02 00009000 00006000[0m
+[0;32mI (64) boot:  1 phy_init         RF data          01 01 0000f000 00001000[0m
+[0;32mI (71) boot:  2 factory          factory app      00 00 00010000 00100000[0m
+[0;32mI (77) boot: End of partition table[0m
+[0;32mI (80) esp_image: segment 0: paddr=00010020 vaddr=3f400020 size=24748h (149320) map[0m
+[0;32mI (141) esp_image: segment 1: paddr=00034770 vaddr=3ffb0000 size=045bch ( 17852) load[0m
+[0;32mI (148) esp_image: segment 2: paddr=00038d34 vaddr=40080000 size=072e4h ( 29412) load[0m
+[0;32mI (160) esp_image: segment 3: paddr=00040020 vaddr=400d0020 size=92330h (598832) map[0m
+[0;32mI (374) esp_image: segment 4: paddr=000d2358 vaddr=400872e4 size=0e674h ( 58996) load[0m
+[0;32mI (398) esp_image: segment 5: paddr=000e09d4 vaddr=50000000 size=00028h (    40) load[0m
+[0;32mI (409) boot: Loaded app from partition at offset 0x10000[0m
+[0;32mI (410) boot: Disabling RNG early entropy source...[0m
+[0;32mI (420) cpu_start: Multicore app[0m
+[0;32mI (428) cpu_start: GPIO 3 and 1 are used as console UART I/O pins[0m
+[0;32mI (429) cpu_start: Pro cpu start user code[0m
+[0;32mI (429) cpu_start: cpu freq: 160000000 Hz[0m
+[0;32mI (430) app_init: Application information:[0m
+[0;32mI (434) app_init: Project name:     sumo_robot[0m
+[0;32mI (438) app_init: App version:      8aa9b7d-dirty[0m
+[0;32mI (443) app_init: Compile time:     Jun 15 2026 09:19:49[0m
+[0;32mI (448) app_init: ELF file SHA256:  141bd84f6...[0m
+[0;32mI (452) app_init: ESP-IDF:          v6.1-dev-2938-g12f36a021f[0m
+[0;32mI (458) efuse_init: Min chip rev:     v0.0[0m
+[0;32mI (462) efuse_init: Max chip rev:     v3.99 [0m
+[0;32mI (466) efuse_init: Chip rev:         v3.1[0m
+[0;32mI (470) heap_init: Initializing. RAM available for dynamic allocation:[0m
+[0;32mI (476) heap_init: At 3FFAE6E0 len 00001920 (6 KiB): DRAM[0m
+[0;32mI (481) heap_init: At 3FFBCB70 len 00023490 (141 KiB): DRAM[0m
+[0;32mI (486) heap_init: At 3FFE0440 len 00003AE0 (14 KiB): D/IRAM[0m
+[0;32mI (491) heap_init: At 3FFE4350 len 0001BCB0 (111 KiB): D/IRAM[0m
+[0;32mI (497) heap_init: At 40095958 len 0000A6A8 (41 KiB): IRAM[0m
+[0;32mI (504) spi_flash: detected chip: generic[0m
+[0;32mI (506) spi_flash: flash io: dio[0m
+[0;33mW (509) spi_flash: Detected size(4096k) larger than the size in the binary image header(2048k). Using the size in the binary image header.[0m
+[0;32mI (523) main_task: Started on CPU0[0m
+[0;32mI (533) main_task: Calling app_main()[0m
+[0;32mI (593) wifi:wifi driver task: 3ffc468c, prio:23, stack:6656, core=0[0m
+[0;32mI (613) wifi:wifi firmware version: 44738b4[0m
+[0;32mI (613) wifi:wifi certification version: v7.0[0m
+[0;32mI (613) wifi:config NVS flash: enabled[0m
+[0;32mI (613) wifi:config nano formatting: disabled[0m
+[0;32mI (613) wifi:Init data frame dynamic rx buffer num: 32[0m
+[0;32mI (623) wifi:Init static rx mgmt buffer num: 5[0m
+[0;32mI (623) wifi:Init management short buffer num: 32[0m
+[0;32mI (623) wifi:Init dynamic tx buffer num: 32[0m
+[0;32mI (633) wifi:Init static rx buffer size: 1600[0m
+[0;32mI (633) wifi:Init static rx buffer num: 10[0m
+[0;32mI (643) wifi:Init dynamic rx buffer num: 32[0m
+[0;32mI (643) wifi_init: rx ba win: 6[0m
+[0;32mI (643) wifi_init: accept mbox: 6[0m
+[0;32mI (653) wifi_init: tcpip mbox: 32[0m
+[0;32mI (653) wifi_init: udp mbox: 6[0m
+[0;32mI (653) wifi_init: tcp mbox: 6[0m
+[0;32mI (653) wifi_init: tcp tx win: 5760[0m
+[0;32mI (663) wifi_init: tcp rx win: 5760[0m
+[0;32mI (663) wifi_init: tcp mss: 1440[0m
+[0;32mI (663) wifi_init: WiFi IRAM OP enabled[0m
+[0;32mI (673) wifi_init: WiFi RX IRAM OP enabled[0m
+[0;32mI (683) phy_init: phy_version 4863,a3a4459,Oct 28 2025,14:30:06[0m
+[0;32mI (773) wifi:mode : softAP (e0:5a:1b:cf:ed:d1)[0m
+[0;32mI (783) wifi:Total power save buffer number: 16[0m
+[0;32mI (783) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (783) wifi:Init max length of beacon: 752/752[0m
+[0;32mI (783) main: Wi-Fi AP started. SSID=ESP32-Sumo-Robot password=sumorobot123[0m
+[0;32mI (783) esp_netif_lwip: DHCP server started on interface WIFI_AP_DEF with IP: 192.168.4.1[0m
+[0;32mI (803) main: Connect and open http://192.168.4.1 to access dashboard![0m
+[0;32mI (813) web_server: Web server started on port 80![0m
+[0;32mI (813) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (813) motor_control: Motors initialized successfully![0m
+[0;32mI (823) audio_control: Audio ADC initialized on GPIO 34 (ADC1_CH6).[0m
+[0;32mI (823) sumo_logic: Sumo autonomous navigator and audio FFT engine initialized.[0m
+[0;32mI (209553) wifi:new:<6,1>, old:<6,1>, ap:<6,1>, sta:<255,255>, prof:6, snd_ch_cfg:0x0[0m
+[0;32mI (209553) wifi:station: 38:d5:7a:78:f3:0b join, AID=1, bgn, 40U[0m
+[0;32mI (209613) main: Client joined, AID=1[0m
+[0;32mI (209933) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2[0m
+[0;32mI (212523) wifi:<ba-add>idx:2 (ifx:1, 38:d5:7a:78:f3:0b), tid:0, ssn:98, winSize:64[0m
+[0;33mW (220593) httpd_uri: httpd_uri: URI '/favicon.ico' not found[0m
+[0;33mW (220593) httpd_txrx: httpd_resp_send_err: 404 Not Found - Nothing matches the given URI[0m
+[0;32mI (224433) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (224433) web_server: Switched to VOICE CONTROL (Audio) mode[0m
+[0;32mI (230783) web_server: Injected simulation audio frequency: 1150 Hz[0m
+[0;32mI (230833) motor_control: Command set: left, speed: 70%[0m
+[0;32mI (232273) web_server: Injected simulation audio frequency: 650 Hz[0m
+[0;32mI (232313) motor_control: Command set: forward, speed: 70%[0m
+[0;32mI (235223) web_server: Injected simulation audio frequency: 1150 Hz[0m
+[0;32mI (235263) motor_control: Command set: left, speed: 70%[0m
+[0;32mI (236123) web_server: Injected simulation audio frequency: 1400 Hz[0m
+[0;32mI (236183) motor_control: Command set: right, speed: 70%[0m
+[0;32mI (237233) web_server: Injected simulation audio frequency: 900 Hz[0m
+[0;32mI (237273) motor_control: Command set: backward, speed: 70%[0m
+[0;32mI (238163) web_server: Injected simulation audio frequency: none Hz[0m
+[0;32mI (238343) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (248393) web_server: Injected simulation audio frequency: 650 Hz[0m
+[0;32mI (248473) motor_control: Command set: forward, speed: 70%[0m
+[0;32mI (250863) web_server: Injected simulation audio frequency: 900 Hz[0m
+[0;32mI (250903) motor_control: Command set: backward, speed: 70%[0m
+[0;32mI (251673) web_server: Injected simulation audio frequency: none Hz[0m
+[0;32mI (251833) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (317403) wifi:station: 38:d5:7a:78:f3:0b leave, AID = 1, reason = 8, bss_flags is 756851, bss:0x3ffbe20c[0m
+[0;32mI (317413) wifi:new:<6,0>, old:<6,1>, ap:<6,1>, sta:<255,255>, prof:6, snd_ch_cfg:0x0[0m
+[0;32mI (317413) wifi:<ba-del>idx:2, tid:0[0m
+[0;32mI (317413) wifi:new:<6,1>, old:<6,0>, ap:<6,1>, sta:<255,255>, prof:6, snd_ch_cfg:0x0[0m
+[0;33mW (317423) wifi:no need to send deauth when softap is sending deauth[0m
+[0;32mI (317433) main: Client left, AID=1[0m
+[0;32mI (363703) wifi:new:<6,1>, old:<6,1>, ap:<6,1>, sta:<255,255>, prof:6, snd_ch_cfg:0x0[0m
+[0;32mI (363703) wifi:station: 38:d5:7a:78:f3:0b join, AID=1, bgn, 40U[0m
+[0;32mI (363733) main: Client joined, AID=1[0m
+[0;32mI (364253) esp_netif_lwip: DHCP server assigned IP to a client, IP is: 192.168.4.2[0m
+[0;32mI (366813) wifi:<ba-add>idx:2 (ifx:1, 38:d5:7a:78:f3:0b), tid:0, ssn:236, winSize:64[0m
+[0;32mI (373223) web_server: Injected simulation audio frequency: 650 Hz[0m
+[0;32mI (373293) motor_control: Command set: forward, speed: 70%[0m
+[0;32mI (374573) web_server: Injected simulation audio frequency: 900 Hz[0m
+[0;32mI (374613) motor_control: Command set: backward, speed: 70%[0m
+[0;32mI (375483) web_server: Injected simulation audio frequency: 1400 Hz[0m
+[0;32mI (375533) motor_control: Command set: right, speed: 70%[0m
+[0;32mI (376303) web_server: Injected simulation audio frequency: 1150 Hz[0m
+[0;32mI (376353) motor_control: Command set: left, speed: 70%[0m
+[0;32mI (377973) web_server: Injected simulation audio frequency: 650 Hz[0m
+[0;32mI (378023) motor_control: Command set: forward, speed: 70%[0m
+[0;32mI (378903) web_server: Injected simulation audio frequency: 900 Hz[0m
+[0;32mI (378943) motor_control: Command set: backward, speed: 70%[0m
+[0;32mI (379623) web_server: Injected simulation audio frequency: 1150 Hz[0m
+[0;32mI (379683) motor_control: Command set: left, speed: 70%[0m
+[0;32mI (380363) web_server: Injected simulation audio frequency: 1400 Hz[0m
+[0;32mI (380423) motor_control: Command set: right, speed: 70%[0m
+[0;32mI (381953) web_server: Injected simulation audio frequency: none Hz[0m
+[0;32mI (382113) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (385503) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (385503) web_server: Switched to MANUAL mode[0m
+[0;32mI (386313) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (386443) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (386513) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (386833) web_server: Switched to AUTONOMOUS Sumo mode[0m
+[0;32mI (386923) motor_control: Command set: forward, speed: 70%[0m
+[0;32mI (389423) web_server: Injected simulation border state: front[0m
+[0;33mW (389473) sumo_logic: !! BORDER DETECTED (zone: FRONT) !! Reversing motors...[0m
+[0;32mI (389473) motor_control: Command set: backward, speed: 70%[0m
+[0;32mI (390163) web_server: Injected simulation border state: right[0m
+[0;32mI (390173) sumo_logic: Done reversing. Spinning RIGHT to evade...[0m
+[0;32mI (390173) motor_control: Command set: right, speed: 70%[0m
+[0;32mI (390743) web_server: Injected simulation border state: left[0m
+[0;32mI (390773) sumo_logic: Evasion sequence complete. Resuming forward search.[0m
+[0;32mI (390773) motor_control: Command set: forward, speed: 70%[0m
+[0;33mW (390823) sumo_logic: !! BORDER DETECTED (zone: LEFT) !! Reversing motors...[0m
+[0;32mI (390823) motor_control: Command set: backward, speed: 70%[0m
+[0;32mI (391523) sumo_logic: Done reversing. Spinning RIGHT to evade...[0m
+[0;32mI (391523) motor_control: Command set: right, speed: 70%[0m
+[0;32mI (391623) web_server: Injected simulation border state: right[0m
+[0;32mI (392123) sumo_logic: Evasion sequence complete. Resuming forward search.[0m
+[0;32mI (392123) motor_control: Command set: forward, speed: 70%[0m
+[0;33mW (392173) sumo_logic: !! BORDER DETECTED (zone: RIGHT) !! Reversing motors...[0m
+[0;32mI (392173) motor_control: Command set: backward, speed: 70%[0m
+[0;32mI (392343) web_server: Injected simulation border state: front[0m
+[0;32mI (392923) sumo_logic: Done reversing. Spinning LEFT to evade...[0m
+[0;32mI (392923) motor_control: Command set: left, speed: 70%[0m
+[0;32mI (393523) sumo_logic: Evasion sequence complete. Resuming forward search.[0m
+[0;32mI (393523) motor_control: Command set: forward, speed: 70%[0m
+[0;33mW (393573) sumo_logic: !! BORDER DETECTED (zone: FRONT) !! Reversing motors...[0m
+[0;32mI (393573) motor_control: Command set: backward, speed: 70%[0m
+[0;32mI (393683) web_server: Injected simulation border state: left[0m
+[0;32mI (394273) sumo_logic: Done reversing. Spinning RIGHT to evade...[0m
+[0;32mI (394273) motor_control: Command set: right, speed: 70%[0m
+[0;32mI (394923) sumo_logic: Evasion sequence complete. Resuming forward search.[0m
+[0;32mI (394923) motor_control: Command set: forward, speed: 70%[0m
+[0;33mW (394973) sumo_logic: !! BORDER DETECTED (zone: LEFT) !! Reversing motors...[0m
+[0;32mI (394973) motor_control: Command set: backward, speed: 70%[0m
+[0;32mI (395673) sumo_logic: Done reversing. Spinning RIGHT to evade...[0m
+[0;32mI (395673) motor_control: Command set: right, speed: 70%[0m
+[0;32mI (396093) web_server: Switched to AUTONOMOUS Sumo mode[0m
+[0;32mI (396273) sumo_logic: Evasion sequence complete. Resuming forward search.[0m
+[0;32mI (396273) motor_control: Command set: forward, speed: 70%[0m
+[0;33mW (396323) sumo_logic: !! BORDER DETECTED (zone: LEFT) !! Reversing motors...[0m
+[0;32mI (396323) motor_control: Command set: backward, speed: 70%[0m
+[0;32mI (397023) sumo_logic: Done reversing. Spinning RIGHT to evade...[0m
+[0;32mI (397023) motor_control: Command set: right, speed: 70%[0m
+[0;32mI (397093) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (397093) web_server: Switched to MANUAL mode[0m
+[0;32mI (398023) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (398253) motor_control: Command set: forward, speed: 70%[0m
+[0;32mI (398383) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (398753) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (399023) motor_control: Command set: right, speed: 70%[0m
+[0;32mI (400003) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (400103) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (400443) motor_control: Command set: left, speed: 70%[0m
+[0;32mI (401223) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (401363) motor_control: Command set: left, speed: 70%[0m
+[0;32mI (401473) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (401603) motor_control: Command set: left, speed: 70%[0m
+[0;32mI (401703) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (401843) motor_control: Command set: left, speed: 70%[0m
+[0;32mI (401933) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (402013) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (402663) web_server: Injected simulation border state: none[0m
+[0;32mI (403403) motor_control: Command set: forward, speed: 70%[0m
+[0;32mI (404103) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (404763) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (404863) motor_control: Command set: left, speed: 70%[0m
+[0;32mI (405003) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (405343) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (405603) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (405743) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (405913) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (406213) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (406343) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (406473) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (407253) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (408483) motor_control: Command set: stop, speed: 70%[0m
+[0;32mI (408653) motor_control: Command set: stop, speed: 70%[0m
+[0;32m

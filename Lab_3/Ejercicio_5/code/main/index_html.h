@@ -22,6 +22,7 @@ static const char INDEX_HTML[] = R"HTML(
       --magenta: #ff007f;
       --green: #39ff14;
       --red: #ff3131;
+      --orange: #ffaa00;
       --shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
       --radius: 20px;
     }
@@ -125,14 +126,14 @@ static const char INDEX_HTML[] = R"HTML(
     .stats-container {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: 16px;
+      gap: 12px;
     }
 
     .stat-box {
       background: rgba(255, 255, 255, 0.03);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 14px;
-      padding: 16px;
+      padding: 12px;
       text-align: center;
       transition: all 0.3s ease;
     }
@@ -157,20 +158,20 @@ static const char INDEX_HTML[] = R"HTML(
       font-size: 11px;
       text-transform: uppercase;
       color: var(--muted);
-      margin-bottom: 6px;
+      margin-bottom: 4px;
       letter-spacing: 0.1em;
     }
 
     .stat-val {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 800;
     }
 
     /* Mode Selection */
     .mode-switch-container {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
       background: rgba(0, 0, 0, 0.2);
       padding: 6px;
       border-radius: 14px;
@@ -179,11 +180,11 @@ static const char INDEX_HTML[] = R"HTML(
 
     .mode-btn {
       border: 0;
-      padding: 12px 8px;
+      padding: 12px 4px;
       border-radius: 10px;
       font-family: inherit;
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       cursor: pointer;
       color: var(--muted);
       background: transparent;
@@ -205,6 +206,12 @@ static const char INDEX_HTML[] = R"HTML(
       background: linear-gradient(135deg, rgba(255, 0, 127, 0.3) 0%, rgba(255, 0, 127, 0.15) 100%);
       border: 1px solid var(--magenta);
       text-shadow: 0 0 5px var(--magenta);
+    }
+
+    .mode-btn.active.audio {
+      background: linear-gradient(135deg, rgba(255, 170, 0, 0.3) 0%, rgba(255, 170, 0, 0.15) 100%);
+      border: 1px solid var(--orange);
+      text-shadow: 0 0 5px var(--orange);
     }
 
     /* D-PAD Manual controls */
@@ -330,7 +337,7 @@ static const char INDEX_HTML[] = R"HTML(
       cursor: pointer;
     }
 
-    /* Camera Simulation Panel */
+    /* Camera & Audio Simulation Panel */
     .sim-buttons {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -361,7 +368,16 @@ static const char INDEX_HTML[] = R"HTML(
       color: #fff;
     }
 
-    .sim-btn.active[data-border="none"] { border-color: var(--green); box-shadow: 0 0 10px rgba(57, 255, 20, 0.2); }
+    .sim-btn.active[data-border="none"],
+    .sim-btn.active[data-audio="none"] { 
+      border-color: var(--green); 
+      box-shadow: 0 0 10px rgba(57, 255, 20, 0.2); 
+    }
+
+    .sim-btn.active[data-audio]:not([data-audio="none"]) {
+      border-color: var(--orange);
+      box-shadow: 0 0 10px rgba(255, 170, 0, 0.25);
+    }
 
     /* Grayscale Camera Canvas Visualizer */
     .cam-viewer-wrapper {
@@ -410,7 +426,7 @@ static const char INDEX_HTML[] = R"HTML(
     }
 
     .overlay-front {
-      top: 0; left: 0; width: 100%; height: 48px; /* 24px * 2 */
+      top: 0; left: 0; width: 100%; height: 48px;
       opacity: 0;
     }
     .overlay-left {
@@ -452,6 +468,45 @@ static const char INDEX_HTML[] = R"HTML(
       animation: pulse 1s infinite;
     }
 
+    /* Audio Visualizer CSS Animation */
+    .visualizer-container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-end;
+      height: 44px;
+      gap: 6px;
+      margin: 15px auto 5px;
+      width: 100%;
+      background: rgba(0,0,0,0.15);
+      border-radius: 12px;
+      padding: 10px;
+      border: 1px solid rgba(255,255,255,0.02);
+    }
+    
+    .visualizer-container .bar {
+      width: 6px;
+      height: 6px;
+      background-color: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      transition: all 0.2s ease;
+    }
+    
+    .visualizer-container.active .bar {
+      background-color: var(--orange);
+      animation: bounce 0.8s ease infinite alternate;
+    }
+    .visualizer-container.active .bar:nth-child(2) { animation-delay: 0.1s; animation-duration: 0.6s; }
+    .visualizer-container.active .bar:nth-child(3) { animation-delay: 0.2s; animation-duration: 0.9s; }
+    .visualizer-container.active .bar:nth-child(4) { animation-delay: 0.15s; animation-duration: 0.7s; }
+    .visualizer-container.active .bar:nth-child(5) { animation-delay: 0.3s; animation-duration: 0.8s; }
+    .visualizer-container.active .bar:nth-child(6) { animation-delay: 0.05s; animation-duration: 0.5s; }
+    .visualizer-container.active .bar:nth-child(7) { animation-delay: 0.25s; animation-duration: 1.0s; }
+
+    @keyframes bounce {
+      from { height: 6px; }
+      to { height: 32px; }
+    }
+
     /* Key bindings cheat sheet */
     .cheat-sheet {
       text-align: center;
@@ -481,7 +536,7 @@ static const char INDEX_HTML[] = R"HTML(
       <div class="pulsing-dot"></div>
       <h1>Sumo Robot ESP32</h1>
     </div>
-    <p class="subtitle">Laboratorio 3 - Ejercicio 5 (Simulación de Evasión de Bordes)</p>
+    <p class="subtitle">Laboratorio 3 - Ejercicio 5 (Simulación de Evasión y Control por Audio FFT)</p>
   </header>
 
   <main class="app-grid">
@@ -507,11 +562,22 @@ static const char INDEX_HTML[] = R"HTML(
           <div class="stat-title">Borde Ring</div>
           <div class="stat-val" id="status-border" style="color: var(--green);">SEGURO</div>
         </div>
+        
+        <!-- Audio stats -->
+        <div class="stat-box" id="audio-freq-box">
+          <div class="stat-title">Audio Frecuencia</div>
+          <div class="stat-val" id="status-audio-freq" style="color: var(--orange);">0 Hz</div>
+        </div>
+        <div class="stat-box" id="audio-cmd-box">
+          <div class="stat-title">Audio Comando</div>
+          <div class="stat-val" id="status-audio-cmd">STOP</div>
+        </div>
       </div>
 
       <div class="mode-switch-container">
-        <button class="mode-btn manual active" id="btn-manual-mode" onclick="setMode('manual')">Modo Manual</button>
-        <button class="mode-btn auto" id="btn-auto-mode" onclick="setMode('auto')">Modo Sumo (Auto)</button>
+        <button class="mode-btn manual active" id="btn-manual-mode" onclick="setMode('manual')">Manual</button>
+        <button class="mode-btn auto" id="btn-auto-mode" onclick="setMode('auto')">Sumo (Auto)</button>
+        <button class="mode-btn audio" id="btn-audio-mode" onclick="setMode('audio')">Voz (Audio)</button>
       </div>
 
       <div class="controls-wrapper" id="manual-controls">
@@ -555,38 +621,49 @@ static const char INDEX_HTML[] = R"HTML(
 
     <!-- RIGHT PANEL: Sensor Simulation & Visualizer -->
     <div class="panel">
-      <h2>Simulador de Cámara (Capa de Sensores)</h2>
+      <h2>Simulador de Sensores</h2>
       
-      <p style="margin: 0; color: var(--muted); font-size: 13.5px; line-height: 1.5;">
-        Haz clic en los botones para simular qué ve la cámara del robot en tiempo real. 
-        En <strong>Modo Sumo (Auto)</strong>, el robot reaccionará automáticamente evadiendo el borde simulado.
-      </p>
-
-      <div class="sim-buttons">
+      <!-- Part A: Camera / Evasion -->
+      <h3 style="margin: 0; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; color: var(--magenta);">A. Cámara Virtual (Ring Borde)</h3>
+      <div class="sim-buttons" style="grid-template-columns: repeat(2, 2fr); gap: 8px;">
         <button class="sim-btn active" id="sim-none" data-border="none" onclick="injectSimulation('none')">✓ Piso Blanco (Seguro)</button>
         <button class="sim-btn" id="sim-front" data-border="front" onclick="injectSimulation('front')">⚠ Borde al Frente</button>
-        <button class="sim-btn" id="sim-left" data-border="left" onclick="injectSimulation('left')">⚠ Borde a la Izquierda</button>
-        <button class="sim-btn" id="sim-right" data-border="right" onclick="injectSimulation('right')">⚠ Borde a la Derecha</button>
+        <button class="sim-btn" id="sim-left" data-border="left" onclick="injectSimulation('left')">⚠ Borde Izquierda</button>
+        <button class="sim-btn" id="sim-right" data-border="right" onclick="injectSimulation('right')">⚠ Borde Derecha</button>
       </div>
 
       <div class="cam-viewer-wrapper">
         <div class="cam-screen-border" id="cam-border-element">
-          <!-- virtual 96x96 camera buffer visualizer -->
           <div class="cam-screen none" id="cam-screen-element">
             <div class="camera-overlay-line overlay-front"></div>
             <div class="camera-overlay-line overlay-left"></div>
             <div class="camera-overlay-line overlay-right"></div>
           </div>
         </div>
-        <div class="cam-label">
-          <span class="cam-indicator" id="cam-alert-indicator"></span>
-          <span>Buffer Cámara Simulado (96x96 Gray)</span>
-        </div>
       </div>
+
+      <!-- Part B: Audio / FFT -->
+      <h3 style="margin: 10px 0 0; font-size: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 6px; color: var(--orange);">B. Entrada de Audio (FFT Tonos)</h3>
+      <p style="margin: 0; color: var(--muted); font-size: 13px; line-height: 1.4;">
+        Simula tonos puros de audio recibidos por el micrófono. En <strong>Modo Voz</strong>, el robot responderá a estos tonos.
+      </p>
       
-      <div style="background: rgba(0,0,0,0.15); padding: 12px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.03); font-size: 13px;">
-        <span style="font-weight: 600; color: var(--magenta);">Lógica de Detección:</span> 
-        Si el algoritmo detecta que en alguna de las zonas de monitoreo de la matriz se reduce el brillo promedio (píxeles oscuros &lt; umbral), se activa la secuencia de seguridad en los motores.
+      <div class="sim-buttons" style="grid-template-columns: repeat(3, 1fr); gap: 8px;">
+        <button class="sim-btn active" id="sim-audio-none" data-audio="none" onclick="injectAudioSimulation('none')">✓ Silencio</button>
+        <button class="sim-btn" id="sim-audio-650" data-audio="650" onclick="injectAudioSimulation('650')">650 Hz (Adelante)</button>
+        <button class="sim-btn" id="sim-audio-900" data-audio="900" onclick="injectAudioSimulation('900')">900 Hz (Atrás)</button>
+        <button class="sim-btn" id="sim-audio-1150" data-audio="1150" onclick="injectAudioSimulation('1150')">1150 Hz (Izq)</button>
+        <button class="sim-btn" id="sim-audio-1400" data-audio="1400" onclick="injectAudioSimulation('1400')">1400 Hz (Der)</button>
+      </div>
+
+      <div class="visualizer-container" id="audio-visualizer">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
       </div>
     </div>
 
@@ -602,6 +679,8 @@ static const char INDEX_HTML[] = R"HTML(
     const speedPill = document.getElementById('speed-pill');
     const modeEl = document.getElementById('status-mode');
     const borderEl = document.getElementById('status-border');
+    const audioFreqEl = document.getElementById('status-audio-freq');
+    const audioCmdEl = document.getElementById('status-audio-cmd');
     const slider = document.getElementById('speed-slider');
     const stopBtn = document.getElementById('stop-btn');
     const modeBox = document.getElementById('mode-box');
@@ -610,13 +689,15 @@ static const char INDEX_HTML[] = R"HTML(
     const manualControlsWrapper = document.getElementById('manual-controls');
     const btnManualMode = document.getElementById('btn-manual-mode');
     const btnAutoMode = document.getElementById('btn-auto-mode');
+    const btnAudioMode = document.getElementById('btn-audio-mode');
 
     const camScreen = document.getElementById('cam-screen-element');
     const camBorder = document.getElementById('cam-border-element');
-    const camIndicator = document.getElementById('cam-alert-indicator');
+    const audioVisualizer = document.getElementById('audio-visualizer');
 
     const controlButtons = [...document.querySelectorAll('.control-btn')];
-    const simButtons = [...document.querySelectorAll('.sim-btn')];
+    const simButtons = [...document.querySelectorAll('.sim-btn[data-border]')];
+    const simAudioButtons = [...document.querySelectorAll('.sim-btn[data-audio]')];
 
     let activeCommand = 'stop';
     let isSending = false;
@@ -655,52 +736,79 @@ static const char INDEX_HTML[] = R"HTML(
       speedEl.textContent = `${speed}%`;
       speedPill.textContent = `${speed}%`;
 
-      // Update mode
+      // Update mode buttons and layouts
+      btnManualMode.classList.remove('active');
+      btnAutoMode.classList.remove('active');
+      btnAudioMode.classList.remove('active');
+
       if (data.mode === 'auto') {
         modeEl.textContent = 'SUMO (AUTO)';
         modeEl.style.color = 'var(--magenta)';
         modeBox.classList.add('active-mode');
+        modeBox.style.borderColor = 'var(--magenta)';
         
-        // Disable manual inputs visually
         manualControlsWrapper.classList.add('controls-disabled');
-        btnManualMode.classList.remove('active');
         btnAutoMode.classList.add('active');
+        audioVisualizer.classList.remove('active');
+      } else if (data.mode === 'audio') {
+        modeEl.textContent = 'VOZ (AUDIO)';
+        modeEl.style.color = 'var(--orange)';
+        modeBox.classList.add('active-mode');
+        modeBox.style.borderColor = 'var(--orange)';
+
+        manualControlsWrapper.classList.add('controls-disabled');
+        btnAudioMode.classList.add('active');
+        audioVisualizer.classList.add('active');
       } else {
         modeEl.textContent = 'MANUAL';
         modeEl.style.color = 'var(--cyan)';
         modeBox.classList.remove('active-mode');
+        modeBox.style.borderColor = 'rgba(255,255,255,0.05)';
 
-        // Enable manual inputs
         manualControlsWrapper.classList.remove('controls-disabled');
         btnManualMode.classList.add('active');
-        btnAutoMode.classList.remove('active');
+        audioVisualizer.classList.remove('active');
       }
 
-      // Update simulated screen and border flags
+      // Update border simulation buttons active class
       const simState = data.simulation || 'none';
       simButtons.forEach(btn => {
         btn.classList.toggle('active', btn.dataset.border === simState);
       });
-
-      // Update virtual camera view class
       camScreen.className = `cam-screen ${simState}`;
 
-      // Update border detection state
+      // Update camera border warning triggers
       if (data.border_detected) {
         borderEl.textContent = `EVASIÓN (${data.detected_zone.toUpperCase()})`;
         borderEl.style.color = 'var(--red)';
         borderBox.classList.add('danger-active');
         camBorder.classList.add('alert');
-        camIndicator.classList.add('active');
       } else {
         borderEl.textContent = 'SEGURO';
         borderEl.style.color = 'var(--green)';
         borderBox.classList.remove('danger-active');
         camBorder.classList.remove('alert');
-        camIndicator.classList.remove('active');
       }
 
-      // Update button active states
+      // Update Audio states
+      const peakFreq = Number(data.audio_peak_freq || 0);
+      const peakMag = Number(data.audio_peak_mag || 0);
+      audioFreqEl.textContent = `${peakFreq.toFixed(1)} Hz`;
+      
+      const audioCmd = data.audio_cmd || 'stop';
+      audioCmdEl.textContent = audioCmd.toUpperCase();
+      if (audioCmd !== 'stop') {
+        audioCmdEl.style.color = 'var(--orange)';
+      } else {
+        audioCmdEl.style.color = '#fff';
+      }
+
+      const simAudioState = data.audio_simulation || 'none';
+      simAudioButtons.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.audio === simAudioState);
+      });
+
+      // Update D-PAD active commands
       controlButtons.forEach(btn => {
         btn.classList.toggle('active', btn.dataset.command === activeCommand);
       });
@@ -712,6 +820,10 @@ static const char INDEX_HTML[] = R"HTML(
 
     async function injectSimulation(border) {
       await api(`/api/simulate/${border}`);
+    }
+
+    async function injectAudioSimulation(freq) {
+      await api(`/api/simulate_audio/${freq}`);
     }
 
     function bindHold(button, command) {
@@ -754,8 +866,7 @@ static const char INDEX_HTML[] = R"HTML(
     const pressed = new Set();
 
     window.addEventListener('keydown', (e) => {
-      // Ignore if auto mode
-      if (modeEl.textContent.includes('SUMO')) return;
+      if (modeEl.textContent.includes('SUMO') || modeEl.textContent.includes('VOZ')) return;
       
       if (e.code === 'Space') {
         e.preventDefault();
@@ -769,7 +880,7 @@ static const char INDEX_HTML[] = R"HTML(
     });
 
     window.addEventListener('keyup', (e) => {
-      if (modeEl.textContent.includes('SUMO')) return;
+      if (modeEl.textContent.includes('SUMO') || modeEl.textContent.includes('VOZ')) return;
       if (keyMap[e.key]) {
         pressed.delete(e.key);
         api('/api/stop');
