@@ -45,7 +45,7 @@ int app_camera_init() {
   camera_config_t config = BSP_CAMERA_DEFAULT_CONFIG;
 
 #else // CONFIG_TFLITE_USE_BSP
-  camera_config_t config;
+  camera_config_t config = {0};
   config.ledc_channel = LEDC_CHANNEL_0;
   config.ledc_timer = LEDC_TIMER_0;
   config.pin_d0 = CAMERA_PIN_D0;
@@ -66,8 +66,9 @@ int app_camera_init() {
   config.pin_reset = CAMERA_PIN_RESET;
   config.xclk_freq_hz = XCLK_FREQ_HZ;
   config.jpeg_quality = 10;
-  config.fb_count = 2;
+  config.fb_count = 1;
   config.fb_location = CAMERA_FB_IN_PSRAM;
+  config.grab_mode = CAMERA_GRAB_WHEN_EMPTY;
 #endif // CONFIG_TFLITE_USE_BSP
 
   // Pixel format and frame size are specific configurations options for this application.
