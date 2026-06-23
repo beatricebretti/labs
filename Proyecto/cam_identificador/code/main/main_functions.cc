@@ -118,10 +118,11 @@ void setup() {
   //
   // tflite::AllOpsResolver resolver;
   // NOLINTNEXTLINE(runtime-global-variables)
-  static tflite::MicroMutableOpResolver<10> micro_op_resolver;
+  static tflite::MicroMutableOpResolver<11> micro_op_resolver;
   micro_op_resolver.AddAveragePool2D();
   micro_op_resolver.AddConv2D();
   micro_op_resolver.AddDepthwiseConv2D();
+  micro_op_resolver.AddFullyConnected();
   micro_op_resolver.AddMean();
   micro_op_resolver.AddPack();
   micro_op_resolver.AddReshape();

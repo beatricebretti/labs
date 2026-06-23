@@ -15,6 +15,7 @@ import tensorflow as tf
 
 
 CLASS_NAMES = ["no_identifier", "identifier"]
+IDENTIFIER_INDEX = CLASS_NAMES.index("identifier")
 ZONE_NAMES = ["left", "center", "right"]
 IMAGE_SIZE = 96
 ZONE_COUNT = 3
@@ -155,8 +156,9 @@ def make_model() -> tf.keras.Model:
     x = tf.keras.layers.AveragePooling2D(pool_size=2)(x)
     x = tf.keras.layers.Conv2D(24, 3, padding="same", activation="relu")(x)
     x = tf.keras.layers.AveragePooling2D(pool_size=2)(x)
-    x = tf.keras.layers.Conv2D(len(CLASS_NAMES), 1, padding="same")(x)
-    x = tf.keras.layers.GlobalAveragePooling2D()(x)
+    x = tf.keras.layers.Flatten()(x)
+    x = tf.keras.layers.Dense(24, activation="relu")(x)
+    x = tf.keras.layers.Dense(len(CLASS_NAMES))(x)
     outputs = tf.keras.layers.Activation("softmax", name="output_0")(x)
     return tf.keras.Model(inputs=inputs, outputs=outputs, name="identifier_zone_detector")
 
@@ -239,6 +241,79 @@ def evaluate_model(model: tf.keras.Model, val_ds: tf.data.Dataset) -> dict[str, 
     }
 
 
+def evaluate_tflite(tflite_data: bytes, examples: list[CropExample]) -> dict[str, object]:
+    interpreter = tf.lite.Interpreter(model_content=tflite_data)
+    interpreter.allocate_tensors()
+    input_details = interpreter.get_input_details()[0]
+    output_details = interpreter.get_output_details()[0]
+    input_scale, input_zero_point = input_details["quantization"]
+    output_scale, output_zero_point = output_details["quantization"]
+
+    y_true: list[int] = []
+    y_pred: list[int] = []
+    positive_scores: list[float] = []
+    negative_scores: list[float] = []
+
+    for example in examples:
+        data = tf.io.read_file(str(example.path))
+        image = tf.io.decode_jpeg(data, channels=1)
+        image = tf.cast(image, tf.float32)
+        image = tf.image.resize(image, [IMAGE_SIZE, IMAGE_SIZE], method="bilinear")
+        width = tf.shape(image)[1]
+        x_start = (example.zone * width) // ZONE_COUNT
+        x_end = ((example.zone + 1) * width) // ZONE_COUNT
+        crop = image[:, x_start:x_end, :]
+        crop = tf.image.resize(crop, [IMAGE_SIZE, IMAGE_SIZE], method="nearest")
+        crop = crop / 255.0
+
+        if input_details["dtype"] == np.int8:
+            crop = tf.round((crop / input_scale) + input_zero_point)
+            crop = tf.clip_by_value(crop, -128, 127)
+            input_data = tf.cast(crop, tf.int8).numpy()[np.newaxis, ...]
+        else:
+            input_data = crop.numpy()[np.newaxis, ...].astype(input_details["dtype"])
+
+        interpreter.set_tensor(input_details["index"], input_data)
+        interpreter.invoke()
+        output = interpreter.get_tensor(output_details["index"])[0]
+        if output_details["dtype"] == np.int8:
+            probabilities = (output.astype(np.float32) - output_zero_point) * output_scale
+        else:
+            probabilities = output.astype(np.float32)
+
+        score = float(probabilities[IDENTIFIER_INDEX] * 100.0)
+        y_true.append(example.label)
+        y_pred.append(int(np.argmax(probabilities)))
+        if example.label == 1:
+            positive_scores.append(score)
+        else:
+            negative_scores.append(score)
+
+    matrix = np.zeros((2, 2), dtype=int)
+    for true_label, pred_label in zip(y_true, y_pred):
+        matrix[true_label, pred_label] += 1
+
+    return {
+        "accuracy": float(np.mean(np.array(y_true) == np.array(y_pred))) if y_true else 0.0,
+        "confusion_matrix": matrix.tolist(),
+        "positive_score_percentiles": percentile_summary(positive_scores),
+        "negative_score_percentiles": percentile_summary(negative_scores),
+    }
+
+
+def percentile_summary(values: list[float]) -> dict[str, float]:
+    if not values:
+        return {}
+    array = np.array(values)
+    return {
+        "min": float(np.min(array)),
+        "p10": float(np.percentile(array, 10)),
+        "mean": float(np.mean(array)),
+        "p90": float(np.percentile(array, 90)),
+        "max": float(np.max(array)),
+    }
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Entrena detector binario por cuadrante.")
     parser.add_argument("--dataset", default="../../dataset_embebidos_grupo3", type=Path)
@@ -296,7 +371,7 @@ def main() -> int:
     model.summary()
 
     callbacks = [
-        tf.keras.callbacks.EarlyStopping(monitor="val_accuracy", patience=12, restore_best_weights=True),
+        tf.keras.callbacks.EarlyStopping(monitor="val_loss", patience=20, restore_best_weights=True),
     ]
     model.fit(
         train_ds,
@@ -324,6 +399,8 @@ def main() -> int:
     model.save(args.out_dir / "identifier_model.keras")
 
     tflite_data = convert_to_tflite(model, train_examples)
+    metrics["tflite"] = evaluate_tflite(tflite_data, val_examples)
+    (args.out_dir / "metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
     tflite_path = args.out_dir / "identifier_detect_model.tflite"
     tflite_path.write_bytes(tflite_data)
     generated_cc = args.out_dir / "identifier_detect_model_data.cc"
