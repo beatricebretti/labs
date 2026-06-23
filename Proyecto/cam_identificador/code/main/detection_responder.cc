@@ -80,10 +80,52 @@ void create_gui(void)
 static const char *TAG = "identifier_detect";
 static bool last_identifier_detected = false;
 
-void RespondToDetection(float identifier_score, float no_identifier_score) {
-  int identifier_score_int = (identifier_score) * 100 + 0.5;
-  int no_identifier_score_int = (no_identifier_score) * 100 + 0.5;
-  const bool identifier_detected = identifier_score_int >= 60;
+namespace {
+constexpr int kIdentifierThresholdPercent = 70;
+
+int ScoreToPercent(float score) {
+  int score_int = (score * 100.0f) + 0.5f;
+  if (score_int < 0) {
+    return 0;
+  }
+  if (score_int > 100) {
+    return 100;
+  }
+  return score_int;
+}
+
+const char *ZoneName(int zone) {
+  switch (zone) {
+    case kIdentifierZoneLeft:
+      return "left";
+    case kIdentifierZoneCenter:
+      return "center";
+    case kIdentifierZoneRight:
+      return "right";
+    default:
+      return "none";
+  }
+}
+}  // namespace
+
+void RespondToDetection(float left_score, float center_score, float right_score) {
+  const int left_score_int = ScoreToPercent(left_score);
+  const int center_score_int = ScoreToPercent(center_score);
+  const int right_score_int = ScoreToPercent(right_score);
+
+  int best_zone = kIdentifierZoneLeft;
+  int best_score_int = left_score_int;
+  if (center_score_int > best_score_int) {
+    best_zone = kIdentifierZoneCenter;
+    best_score_int = center_score_int;
+  }
+  if (right_score_int > best_score_int) {
+    best_zone = kIdentifierZoneRight;
+    best_score_int = right_score_int;
+  }
+
+  const bool identifier_detected = best_score_int >= kIdentifierThresholdPercent;
+  const char *zone_name = identifier_detected ? ZoneName(best_zone) : "none";
 
 #if DISPLAY_SUPPORT
   if (!camera_canvas) {
@@ -104,18 +146,25 @@ void RespondToDetection(float identifier_score, float no_identifier_score) {
 #endif // DISPLAY_SUPPORT
 
   if (identifier_detected && !last_identifier_detected) {
-    ESP_LOGI(TAG, "IDENTIFIER DETECTED! (score: %d%%)", identifier_score_int);
+    ESP_LOGI(TAG, "IDENTIFIER DETECTED! zone=%s score=%d%%", zone_name, best_score_int);
   } else if (!identifier_detected && last_identifier_detected) {
-    ESP_LOGI(TAG, "No identifier detected (score: %d%%)", no_identifier_score_int);
+    ESP_LOGI(TAG, "No identifier detected (best score: %d%%)", best_score_int);
   }
   last_identifier_detected = identifier_detected;
 
-  printf("IDENTIFIER,detected=%d,identifier_score=%d,no_identifier_score=%d\n",
+  printf("IDENTIFIER,detected=%d,zone=%s,left_score=%d,center_score=%d,"
+         "right_score=%d,best_score=%d,threshold=%d\n",
          identifier_detected ? 1 : 0,
-         identifier_score_int,
-         no_identifier_score_int);
+         zone_name,
+         left_score_int,
+         center_score_int,
+         right_score_int,
+         best_score_int,
+         kIdentifierThresholdPercent);
 
-  MicroPrintf("%s score:%d%%, %s score:%d%%",
-              kCategoryLabels[kIdentifierIndex], identifier_score_int,
-              kCategoryLabels[kNotIdentifierIndex], no_identifier_score_int);
+  MicroPrintf("left:%d%%, center:%d%%, right:%d%%, zone:%s",
+              left_score_int,
+              center_score_int,
+              right_score_int,
+              zone_name);
 }

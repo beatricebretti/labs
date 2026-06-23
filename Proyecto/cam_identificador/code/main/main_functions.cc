@@ -53,7 +53,44 @@ constexpr int scratchBufSize = 0;
 // Keeping allocation on bit larger size to accomodate future needs.
 constexpr int kTensorArenaSize = 100 * 1024 + scratchBufSize;
 static uint8_t *tensor_arena;//[kTensorArenaSize]; // Maybe we should move this to external
+static int8_t captured_frame[kMaxImageSize];
 }  // namespace
+
+static float ScoreFromOutput(const TfLiteTensor* output, int index) {
+  if (output->type == kTfLiteFloat32) {
+    return output->data.f[index];
+  }
+  if (output->type == kTfLiteUInt8) {
+    return (output->data.uint8[index] - output->params.zero_point) *
+           output->params.scale;
+  }
+  return (output->data.int8[index] - output->params.zero_point) *
+         output->params.scale;
+}
+
+static void CopyZoneToInput(const int8_t *frame, int zone, int8_t *input_data) {
+  const int zone_width = kNumCols / kIdentifierZoneCount;
+  const int x_start = zone * zone_width;
+
+  for (int y = 0; y < kNumRows; ++y) {
+    for (int x = 0; x < kNumCols; ++x) {
+      const int source_x = x_start + ((x * zone_width) / kNumCols);
+      input_data[(y * kNumCols) + x] = frame[(y * kNumCols) + source_x];
+    }
+  }
+}
+
+static float InvokeIdentifierForZone(const int8_t *frame, int zone) {
+  CopyZoneToInput(frame, zone, input->data.int8);
+
+  if (kTfLiteOk != interpreter->Invoke()) {
+    MicroPrintf("Invoke failed.");
+    return 0.0f;
+  }
+
+  TfLiteTensor* output = interpreter->output(0);
+  return ScoreFromOutput(output, kIdentifierIndex);
+}
 
 void setup() {
   // Map the model into a usable data structure. This doesn't involve any
@@ -125,28 +162,18 @@ void setup() {
 #if !CLI_ONLY_INFERENCE
 void loop() {
   // Get image from provider.
-  if (kTfLiteOk != GetImage(kNumCols, kNumRows, kNumChannels, input->data.int8)) {
+  if (kTfLiteOk != GetImage(kNumCols, kNumRows, kNumChannels, captured_frame)) {
     MicroPrintf("Image capture failed.");
+    vTaskDelay(1);
+    return;
   }
 
-  // Run the model on this input and make sure it succeeds.
-  if (kTfLiteOk != interpreter->Invoke()) {
-    MicroPrintf("Invoke failed.");
-  }
-
-  TfLiteTensor* output = interpreter->output(0);
-
-  // Process the inference results.
-  int8_t identifier_score = output->data.uint8[kIdentifierIndex];
-  int8_t no_identifier_score = output->data.uint8[kNotIdentifierIndex];
-
-  float identifier_score_f =
-      (identifier_score - output->params.zero_point) * output->params.scale;
-  float no_identifier_score_f =
-      (no_identifier_score - output->params.zero_point) * output->params.scale;
+  const float left_score = InvokeIdentifierForZone(captured_frame, kIdentifierZoneLeft);
+  const float center_score = InvokeIdentifierForZone(captured_frame, kIdentifierZoneCenter);
+  const float right_score = InvokeIdentifierForZone(captured_frame, kIdentifierZoneRight);
 
   // Respond to detection
-  RespondToDetection(identifier_score_f, no_identifier_score_f);
+  RespondToDetection(left_score, center_score, right_score);
   vTaskDelay(1); // to avoid watchdog trigger
 }
 #endif // CLI_ONLY_INFERENCE
@@ -166,16 +193,15 @@ void loop() {
 void run_inference(void *ptr) {
   /* Convert from uint8 picture data to int8 */
   for (int i = 0; i < kNumCols * kNumRows; i++) {
-    input->data.int8[i] = ((uint8_t *) ptr)[i] ^ 0x80;
+    captured_frame[i] = ((uint8_t *) ptr)[i] ^ 0x80;
   }
 
 #if defined(COLLECT_CPU_STATS)
   long long start_time = esp_timer_get_time();
 #endif
-  // Run the model on this input and make sure it succeeds.
-  if (kTfLiteOk != interpreter->Invoke()) {
-    MicroPrintf("Invoke failed.");
-  }
+  const float left_score = InvokeIdentifierForZone(captured_frame, kIdentifierZoneLeft);
+  const float center_score = InvokeIdentifierForZone(captured_frame, kIdentifierZoneCenter);
+  const float right_score = InvokeIdentifierForZone(captured_frame, kIdentifierZoneRight);
 
 #if defined(COLLECT_CPU_STATS)
   long long total_time = (esp_timer_get_time() - start_time);
@@ -199,15 +225,5 @@ void run_inference(void *ptr) {
   mul_total_time = 0;
 #endif
 
-  TfLiteTensor* output = interpreter->output(0);
-
-  // Process the inference results.
-  int8_t identifier_score = output->data.uint8[kIdentifierIndex];
-  int8_t no_identifier_score = output->data.uint8[kNotIdentifierIndex];
-
-  float identifier_score_f =
-      (identifier_score - output->params.zero_point) * output->params.scale;
-  float no_identifier_score_f =
-      (no_identifier_score - output->params.zero_point) * output->params.scale;
-  RespondToDetection(identifier_score_f, no_identifier_score_f);
+  RespondToDetection(left_score, center_score, right_score);
 }

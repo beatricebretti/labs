@@ -11,6 +11,8 @@ cumplimiento de restricciones del robot sumo:
   ESP32-S3 controlador.
 - `scripts/`: helpers Bash para revisar el entorno WSL y compilar ambos
   firmwares.
+- `training/`: scripts para inspeccionar el dataset, entrenar el modelo del
+  identificador, cuantizarlo a TFLite y reemplazar el arreglo C embebido.
 
 La arquitectura propuesta es usar dos ESP32-CAM y un ESP32-S3 controlador. Las
 camaras envian lineas por UART al S3. El S3 decide motores, procesa audio, mide
@@ -205,7 +207,71 @@ Verificacion esperada:
 Si aparece `WARN` por no ver `/dev/ttyUSB*` ni `/dev/ttyACM*`, puedes compilar
 igual. Ese puerto solo es necesario para flashear o monitorear una placa.
 
-## 6. Compilar la camara de identificador
+## 6. Entrenar o reemplazar el modelo del identificador
+
+La ESP32-CAM no entrena el modelo. Solo ejecuta inferencia con el arreglo C que
+esta en `cam_identificador/code/main/identifier_detect_model_data.cc`.
+
+Antes de compilar el firmware final, revisa el dataset:
+
+```bash
+cd ~/se-labs/labs/Proyecto
+python3 training/inspect_dataset.py --dataset ../../dataset_embebidos_grupo3
+```
+
+Verificacion actual esperada con el dataset del grupo:
+
+```text
+celular:
+  presentes: 276
+  ausentes: 1
+esp:
+  presentes: 144
+  ausentes: 1
+```
+
+Eso esta demasiado desbalanceado para entrenar un detector de imagen completa.
+El flujo de `training/train_identifier.py` soluciona esto entrenando por
+cuadrantes: cada foto genera tres crops verticales. Si el identificador esta en
+el cuadrante 2, ese crop es positivo y los cuadrantes 1 y 3 son negativos.
+
+Con las fotos ESP actuales eso genera 144 crops positivos y 291 crops negativos.
+Igual conviene agregar fotos negativas tomadas con la ESP: ring sin robot, fondo
+del laboratorio, robot sin identificador visible, partes del robot que no son el
+identificador y casos donde el identificador esta fuera de cuadro.
+
+Entrena y reemplaza el modelo embebido:
+
+```bash
+cd ~/se-labs/labs/Proyecto
+python3 -m venv .venv-train
+source .venv-train/bin/activate
+python -m pip install --upgrade pip
+python -m pip install -r training/requirements.txt
+python training/train_identifier.py \
+  --dataset ../../dataset_embebidos_grupo3 \
+  --sources esp \
+  --epochs 60 \
+  --emit-firmware
+```
+
+Por que:
+
+- `inspect_dataset.py` valida etiquetas, balance de clases y archivos faltantes.
+- `python -m venv .venv-train` separa TensorFlow del entorno de ESP-IDF.
+- `--sources esp` entrena con imagenes parecidas a lo que vera la ESP32-CAM.
+- `--emit-firmware` copia el `.tflite` convertido a los archivos C que compila
+  ESP-IDF.
+
+El firmware corre el modelo una vez por zona y publica telemetria asi:
+
+```text
+IDENTIFIER,detected=1,zone=center,left_score=12,center_score=93,right_score=9,best_score=93,threshold=70
+```
+
+Los detalles completos estan en `training/README.md`.
+
+## 7. Compilar la camara de identificador
 
 Activa ESP-IDF y entra al firmware:
 
@@ -271,7 +337,7 @@ Interpretacion:
 - `identifier_score`: confianza de la clase identificador.
 - `no_identifier_score`: confianza de la clase sin identificador.
 
-## 7. Compilar la camara de bordes
+## 8. Compilar la camara de bordes
 
 Activa ESP-IDF y entra al firmware:
 
@@ -323,7 +389,7 @@ Interpretacion para el ESP32-S3:
 - `confidence`, `distance_px`, `left`, `center`, `right`, `bottom`,
   `row_peak` y `thr` sirven para calibrar.
 
-## 8. Compilar ambos firmwares con un solo comando
+## 9. Compilar ambos firmwares con un solo comando
 
 Desde la raiz de `Proyecto`:
 
@@ -351,7 +417,7 @@ ls -lh cam_identificador/code/build/robot_sumo_identifier_camera.bin
 ls -lh cam_bordes/code/build/robot_sumo_edge_camera.bin
 ```
 
-## 9. Conectar una ESP32-CAM a WSL para flashear
+## 10. Conectar una ESP32-CAM a WSL para flashear
 
 Primero conecta la placa a Windows por USB. Para ESP32-CAM normalmente usas un
 adaptador USB-serial. Pon la placa en modo bootloader antes de flashear:
@@ -411,7 +477,7 @@ export ESPPORT=/dev/ttyACM0
 test -e "$ESPPORT" && echo "puerto OK: $ESPPORT"
 ```
 
-## 10. Flashear y monitorear la camara de identificador
+## 11. Flashear y monitorear la camara de identificador
 
 Con la ESP32-CAM del identificador conectada en modo bootloader:
 
@@ -450,7 +516,7 @@ Para salir del monitor presiona:
 Ctrl+]
 ```
 
-## 11. Flashear y monitorear la camara de bordes
+## 12. Flashear y monitorear la camara de bordes
 
 Con la segunda ESP32-CAM conectada en modo bootloader:
 
@@ -482,7 +548,7 @@ Prueba fisica minima:
 - Si aparece a la derecha, deberia sugerir `zone=right,action=turn_left`.
 - Si aparece al centro y cerca, deberia sugerir `zone=center,action=reverse`.
 
-## 12. Ajustar parametros de deteccion de bordes
+## 13. Ajustar parametros de deteccion de bordes
 
 Entra al menu de configuracion:
 
@@ -521,7 +587,7 @@ Verificacion:
 - En la telemetria, `thr` debe reflejar el umbral configurado.
 - Al acercar el borde, `confidence` debe subir y `distance_px` debe bajar.
 
-## 13. Checklist de cumplimiento para la entrega
+## 14. Checklist de cumplimiento para la entrega
 
 Antes de demostrar, revisa:
 
@@ -546,7 +612,7 @@ Checklist funcional:
 - Audio reconoce al menos dos instrucciones.
 - El dashboard web publica bordes, bateria, velocidad y robots detectados.
 
-## 14. Problemas comunes
+## 15. Problemas comunes
 
 Si `idf.py` no existe:
 

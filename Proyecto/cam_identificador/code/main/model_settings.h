@@ -27,4 +27,9 @@ constexpr int kNotIdentifierIndex = 0;
 constexpr int kIdentifierIndex = 1;
 extern const char* kCategoryLabels[kCategoryCount];
 
+constexpr int kIdentifierZoneCount = 3;
+constexpr int kIdentifierZoneLeft = 0;
+constexpr int kIdentifierZoneCenter = 1;
+constexpr int kIdentifierZoneRight = 2;
+
 #endif  // TENSORFLOW_LITE_MICRO_EXAMPLES_IDENTIFIER_DETECTION_MODEL_SETTINGS_H_
