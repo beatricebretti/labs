@@ -81,7 +81,7 @@ static const char *TAG = "identifier_detect";
 static bool last_identifier_detected = false;
 
 namespace {
-constexpr int kIdentifierThresholdPercent = 50;
+constexpr int kIdentifierThresholdPercent = 65;
 
 int ScoreToPercent(float score) {
   int score_int = (score * 100.0f) + 0.5f;
