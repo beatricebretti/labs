@@ -1,12 +1,15 @@
 # Proyecto - cumplimiento de restricciones en WSL/Bash
 
-Este directorio contiene dos firmwares ESP-IDF para demostrar la parte de
+Este directorio contiene tres firmwares ESP-IDF para demostrar la parte de
 cumplimiento de restricciones del robot sumo:
 
 - `cam_identificador/code`: firmware de una ESP32-CAM frontal/lateral que corre
   el modelo TinyML del identificador y emite telemetria `IDENTIFIER,...`.
 - `cam_bordes/code`: firmware de una segunda ESP32-CAM apuntando al piso que
   detecta bordes del ring con Sobel y emite telemetria `EDGE,...`.
+- `audio_motores/code`: firmware para el ESP32-S3 controlador. Mueve el robot
+  autonomamente y acepta dos instrucciones por microfono: una palmada gira a la
+  izquierda y dos palmadas ordenan retirarse.
 - `docs/`: protocolo de telemetria y checklist de lo que falta integrar en el
   ESP32-S3 controlador.
 - `scripts/`: helpers Bash para revisar el entorno WSL y compilar ambos
@@ -19,6 +22,9 @@ camaras envian lineas por UART al S3. El S3 decide motores, procesa audio, mide
 bateria y publica el dashboard web. Durante combate el robot no debe recibir
 control por WiFi/BLE; WiFi queda solo para telemetria y las instrucciones de
 conducta deben entrar por audio.
+
+Para la parte de movimiento autonomo por microfono, usa la guia especifica en
+`audio_motores/README.md`.
 
 ## Supuestos
 

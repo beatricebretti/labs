@@ -1,0 +1,69 @@
+menu "Robot sumo audio motor controller"
+
+    config AUDIO_MOTOR_LEFT_ENABLE_GPIO
+        int "L298N ENA GPIO"
+        default 15
+
+    config AUDIO_MOTOR_LEFT_IN1_GPIO
+        int "L298N IN1 GPIO"
+        default 4
+
+    config AUDIO_MOTOR_LEFT_IN2_GPIO
+        int "L298N IN2 GPIO"
+        default 5
+
+    config AUDIO_MOTOR_RIGHT_IN1_GPIO
+        int "L298N IN3 GPIO"
+        default 6
+
+    config AUDIO_MOTOR_RIGHT_IN2_GPIO
+        int "L298N IN4 GPIO"
+        default 7
+
+    config AUDIO_MOTOR_RIGHT_ENABLE_GPIO
+        int "L298N ENB GPIO"
+        default 16
+
+    config AUDIO_MIC_ADC_CHANNEL
+        int "ADC1 channel for analog microphone"
+        default 0
+        help
+            ESP32-S3 GPIO1 is ADC1_CH0. Use an analog microphone output.
+
+    config AUDIO_MOTOR_DEFAULT_SPEED
+        int "Default motor speed percent"
+        default 65
+        range 30 100
+
+    config AUDIO_MOTOR_TURN_SPEED
+        int "Turn motor speed percent"
+        default 70
+        range 30 100
+
+    config AUDIO_MOTOR_RETREAT_SPEED
+        int "Retreat motor speed percent"
+        default 70
+        range 30 100
+
+    config AUDIO_CLAP_MIN_DELTA
+        int "Minimum clap delta"
+        default 260
+        range 80 1600
+        help
+            Minimum absolute ADC deviation from the noise baseline needed to
+            accept a clap candidate. Lower values are more sensitive.
+
+    config AUDIO_LEFT_TURN_MS
+        int "One-clap left turn duration ms"
+        default 800
+
+    config AUDIO_RETREAT_REVERSE_MS
+        int "Two-clap reverse duration ms"
+        default 1200
+
+    config AUDIO_RETREAT_TURN_MS
+        int "Two-clap turn duration ms"
+        default 650
+
+endmenu
+

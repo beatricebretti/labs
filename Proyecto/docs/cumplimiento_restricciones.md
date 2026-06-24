@@ -19,8 +19,11 @@
 
 ## Tareas pendientes fuera de este directorio
 
+- Audio y movimiento autonomo base: existe en `audio_motores/code`. El robot
+  avanza al arrancar y reconoce dos instrucciones audibles por microfono.
 - Integrar las dos UART al ESP32-S3 controlador.
 - Conectar la salida `action` de bordes a la logica de motores.
 - Agregar lectura de bateria y estimacion de velocidad.
-- Implementar reconocimiento de dos instrucciones de audio en el S3.
+- Fusionar `audio_motores/code` con el controlador final si se quiere que el
+  mismo firmware tambien consuma las UART de ambas camaras y publique dashboard.
 - Publicar la telemetria agregada en el dashboard web.
