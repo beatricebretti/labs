@@ -1,0 +1,99 @@
+{
+  "class_names": [
+    "none",
+    "identifier_left",
+    "identifier_center",
+    "identifier_right"
+  ],
+  "accuracy": 0.8333333333333334,
+  "confusion_matrix": [
+    [
+      9,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      6,
+      1,
+      0
+    ],
+    [
+      0,
+      3,
+      15,
+      1
+    ],
+    [
+      0,
+      0,
+      2,
+      10
+    ]
+  ],
+  "mode": "full_frame_4class",
+  "dataset": "/Users/matiasghf/Desktop/2026-1/SE/dataset_embebidos_grupo3",
+  "sources": [
+    "esp"
+  ],
+  "train_images": 196,
+  "val_images": 48,
+  "train_examples": 196,
+  "val_examples": 48,
+  "class_counts": {
+    "none": 51,
+    "identifier_left": 34,
+    "identifier_center": 97,
+    "identifier_right": 62
+  },
+  "tflite": {
+    "class_names": [
+      "none",
+      "identifier_left",
+      "identifier_center",
+      "identifier_right"
+    ],
+    "accuracy": 0.8333333333333334,
+    "confusion_matrix": [
+      [
+        9,
+        0,
+        1,
+        0
+      ],
+      [
+        0,
+        6,
+        1,
+        0
+      ],
+      [
+        0,
+        3,
+        15,
+        1
+      ],
+      [
+        0,
+        0,
+        2,
+        10
+      ]
+    ],
+    "identifier_score_percentiles": {
+      "min": 3.90625,
+      "p10": 12.968750000000002,
+      "mean": 69.56380208333333,
+      "p90": 99.21875,
+      "max": 99.609375
+    },
+    "none_score_percentiles": {
+      "min": 0.0,
+      "p10": 0.0,
+      "mean": 17.431640625,
+      "p90": 85.97656250000003,
+      "max": 94.921875
+    }
+  }
+}

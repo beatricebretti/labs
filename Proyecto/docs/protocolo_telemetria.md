@@ -7,14 +7,19 @@ estado global del robot.
 ## Identificador
 
 ```text
-IDENTIFIER,detected=0|1,identifier_score=0..100,no_identifier_score=0..100
+IDENTIFIER,detected=0|1,zone=none|left|center|right,none_score=0..100,left_score=0..100,center_score=0..100,right_score=0..100,best_score=0..100,threshold=0..100
 ```
 
 Campos:
 
 - `detected`: `1` si el modelo TinyML detecta el identificador.
-- `identifier_score`: confianza de la clase identificador.
-- `no_identifier_score`: confianza de la clase sin identificador.
+- `zone`: zona donde el modelo estima que esta el identificador. `none` indica
+  que no hay deteccion confiable.
+- `none_score`: confianza de la clase sin identificador.
+- `left_score`, `center_score`, `right_score`: confianza de las clases de
+  identificador por posicion usando la imagen completa.
+- `best_score`: mayor confianza entre `left`, `center` y `right`.
+- `threshold`: umbral minimo usado por el firmware para aceptar deteccion.
 
 ## Bordes
 

@@ -108,7 +108,8 @@ const char *ZoneName(int zone) {
 }
 }  // namespace
 
-void RespondToDetection(float left_score, float center_score, float right_score) {
+void RespondToDetection(float none_score, float left_score, float center_score, float right_score) {
+  const int none_score_int = ScoreToPercent(none_score);
   const int left_score_int = ScoreToPercent(left_score);
   const int center_score_int = ScoreToPercent(center_score);
   const int right_score_int = ScoreToPercent(right_score);
@@ -124,7 +125,8 @@ void RespondToDetection(float left_score, float center_score, float right_score)
     best_score_int = right_score_int;
   }
 
-  const bool identifier_detected = best_score_int >= kIdentifierThresholdPercent;
+  const bool identifier_detected = best_score_int >= kIdentifierThresholdPercent &&
+                                   best_score_int >= none_score_int;
   const char *zone_name = identifier_detected ? ZoneName(best_zone) : "none";
 
 #if DISPLAY_SUPPORT
@@ -148,21 +150,24 @@ void RespondToDetection(float left_score, float center_score, float right_score)
   if (identifier_detected && !last_identifier_detected) {
     ESP_LOGI(TAG, "IDENTIFIER DETECTED! zone=%s score=%d%%", zone_name, best_score_int);
   } else if (!identifier_detected && last_identifier_detected) {
-    ESP_LOGI(TAG, "No identifier detected (best score: %d%%)", best_score_int);
+    ESP_LOGI(TAG, "No identifier detected (none=%d%% best_identifier=%d%%)",
+             none_score_int, best_score_int);
   }
   last_identifier_detected = identifier_detected;
 
-  printf("IDENTIFIER,detected=%d,zone=%s,left_score=%d,center_score=%d,"
+  printf("IDENTIFIER,detected=%d,zone=%s,none_score=%d,left_score=%d,center_score=%d,"
          "right_score=%d,best_score=%d,threshold=%d\n",
          identifier_detected ? 1 : 0,
          zone_name,
+         none_score_int,
          left_score_int,
          center_score_int,
          right_score_int,
          best_score_int,
          kIdentifierThresholdPercent);
 
-  MicroPrintf("left:%d%%, center:%d%%, right:%d%%, zone:%s",
+  MicroPrintf("none:%d%%, left:%d%%, center:%d%%, right:%d%%, zone:%s",
+              none_score_int,
               left_score_int,
               center_score_int,
               right_score_int,

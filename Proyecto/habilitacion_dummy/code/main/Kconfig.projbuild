@@ -1,0 +1,79 @@
+menu "Dummy qualification controller"
+
+    config DUMMY_MOTOR_LEFT_ENABLE_GPIO
+        int "L298N ENA GPIO"
+        default 15
+
+    config DUMMY_MOTOR_LEFT_IN1_GPIO
+        int "L298N IN1 GPIO"
+        default 4
+
+    config DUMMY_MOTOR_LEFT_IN2_GPIO
+        int "L298N IN2 GPIO"
+        default 5
+
+    config DUMMY_MOTOR_RIGHT_IN1_GPIO
+        int "L298N IN3 GPIO"
+        default 6
+
+    config DUMMY_MOTOR_RIGHT_IN2_GPIO
+        int "L298N IN4 GPIO"
+        default 7
+
+    config DUMMY_MOTOR_RIGHT_ENABLE_GPIO
+        int "L298N ENB GPIO"
+        default 16
+
+    config DUMMY_IDENTIFIER_RX_GPIO
+        int "ESP32-S3 RX GPIO for identifier camera UART"
+        default 17
+
+    config DUMMY_EDGE_RX_GPIO
+        int "ESP32-S3 RX GPIO for edge camera UART"
+        default 18
+
+    config DUMMY_UART_BAUD
+        int "Camera UART baud rate"
+        default 115200
+
+    config DUMMY_ATTACK_SPEED
+        int "Forward attack speed percent"
+        default 72
+        range 30 100
+
+    config DUMMY_SEARCH_SPEED
+        int "Search turn speed percent"
+        default 55
+        range 25 100
+
+    config DUMMY_ALIGN_SPEED
+        int "Identifier alignment turn speed percent"
+        default 62
+        range 25 100
+
+    config DUMMY_AVOID_SPEED
+        int "Edge avoidance speed percent"
+        default 72
+        range 30 100
+
+    config DUMMY_IDENTIFIER_STALE_MS
+        int "Identifier telemetry stale time ms"
+        default 700
+        range 100 5000
+
+    config DUMMY_EDGE_STALE_MS
+        int "Edge telemetry stale time ms"
+        default 450
+        range 50 3000
+
+    config DUMMY_REVERSE_MS
+        int "Reverse duration when center edge is detected"
+        default 520
+        range 100 3000
+
+    config DUMMY_EDGE_TURN_MS
+        int "Turn duration when side edge is detected"
+        default 420
+        range 100 3000
+
+endmenu

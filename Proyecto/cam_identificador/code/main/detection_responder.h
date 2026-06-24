@@ -18,7 +18,7 @@ limitations under the License.
 
 #include "tensorflow/lite/c/common.h"
 
-void RespondToDetection(float left_score, float center_score, float right_score);
+void RespondToDetection(float none_score, float left_score, float center_score, float right_score);
 void create_gui();
 
 #endif  // TENSORFLOW_LITE_MICRO_EXAMPLES_IDENTIFIER_DETECTION_DETECTION_RESPONDER_H_

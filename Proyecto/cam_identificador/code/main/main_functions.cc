@@ -30,6 +30,7 @@ limitations under the License.
 #include <esp_heap_caps.h>
 #include <esp_timer.h>
 #include <esp_log.h>
+#include <cstring>
 #include "esp_main.h"
 
 namespace {
@@ -68,28 +69,22 @@ static float ScoreFromOutput(const TfLiteTensor* output, int index) {
          output->params.scale;
 }
 
-static void CopyZoneToInput(const int8_t *frame, int zone, int8_t *input_data) {
-  const int zone_width = kNumCols / kIdentifierZoneCount;
-  const int x_start = zone * zone_width;
-
-  for (int y = 0; y < kNumRows; ++y) {
-    for (int x = 0; x < kNumCols; ++x) {
-      const int source_x = x_start + ((x * zone_width) / kNumCols);
-      input_data[(y * kNumCols) + x] = frame[(y * kNumCols) + source_x];
-    }
-  }
-}
-
-static float InvokeIdentifierForZone(const int8_t *frame, int zone) {
-  CopyZoneToInput(frame, zone, input->data.int8);
-
+static bool InvokeIdentifier(const int8_t *frame, float scores[kCategoryCount]) {
+  memcpy(input->data.int8, frame, kMaxImageSize);
   if (kTfLiteOk != interpreter->Invoke()) {
     MicroPrintf("Invoke failed.");
-    return 0.0f;
+    return false;
   }
 
   TfLiteTensor* output = interpreter->output(0);
-  return ScoreFromOutput(output, kIdentifierIndex);
+  if (output->bytes < kCategoryCount) {
+    MicroPrintf("Output tensor is smaller than expected for full-frame model.");
+    return false;
+  }
+  for (int index = 0; index < kCategoryCount; ++index) {
+    scores[index] = ScoreFromOutput(output, index);
+  }
+  return true;
 }
 
 void setup() {
@@ -169,12 +164,17 @@ void loop() {
     return;
   }
 
-  const float left_score = InvokeIdentifierForZone(captured_frame, kIdentifierZoneLeft);
-  const float center_score = InvokeIdentifierForZone(captured_frame, kIdentifierZoneCenter);
-  const float right_score = InvokeIdentifierForZone(captured_frame, kIdentifierZoneRight);
+  float scores[kCategoryCount] = {0};
+  if (!InvokeIdentifier(captured_frame, scores)) {
+    vTaskDelay(1);
+    return;
+  }
 
   // Respond to detection
-  RespondToDetection(left_score, center_score, right_score);
+  RespondToDetection(scores[kNotIdentifierIndex],
+                     scores[kIdentifierLeftIndex],
+                     scores[kIdentifierCenterIndex],
+                     scores[kIdentifierRightIndex]);
   vTaskDelay(1); // to avoid watchdog trigger
 }
 #endif // CLI_ONLY_INFERENCE
@@ -200,9 +200,10 @@ void run_inference(void *ptr) {
 #if defined(COLLECT_CPU_STATS)
   long long start_time = esp_timer_get_time();
 #endif
-  const float left_score = InvokeIdentifierForZone(captured_frame, kIdentifierZoneLeft);
-  const float center_score = InvokeIdentifierForZone(captured_frame, kIdentifierZoneCenter);
-  const float right_score = InvokeIdentifierForZone(captured_frame, kIdentifierZoneRight);
+  float scores[kCategoryCount] = {0};
+  if (!InvokeIdentifier(captured_frame, scores)) {
+    return;
+  }
 
 #if defined(COLLECT_CPU_STATS)
   long long total_time = (esp_timer_get_time() - start_time);
@@ -226,5 +227,8 @@ void run_inference(void *ptr) {
   mul_total_time = 0;
 #endif
 
-  RespondToDetection(left_score, center_score, right_score);
+  RespondToDetection(scores[kNotIdentifierIndex],
+                     scores[kIdentifierLeftIndex],
+                     scores[kIdentifierCenterIndex],
+                     scores[kIdentifierRightIndex]);
 }

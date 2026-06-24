@@ -10,6 +10,9 @@ cumplimiento de restricciones del robot sumo:
 - `audio_motores/code`: firmware para el ESP32-S3 controlador. Mueve el robot
   autonomamente y acepta dos instrucciones por microfono: una palmada gira a la
   izquierda y dos palmadas ordenan retirarse.
+- `habilitacion_dummy/code`: firmware para el ESP32-S3 que combina la telemetria
+  del identificador y la camara de bordes para buscar, centrar y empujar el
+  dummy sin salir del ring.
 - `docs/`: protocolo de telemetria y checklist de lo que falta integrar en el
   ESP32-S3 controlador.
 - `scripts/`: helpers Bash para revisar el entorno WSL y compilar ambos
@@ -25,6 +28,9 @@ conducta deben entrar por audio.
 
 Para la parte de movimiento autonomo por microfono, usa la guia especifica en
 `audio_motores/README.md`.
+
+Para la habilitacion contra el robot dummy, usa la guia especifica en
+`habilitacion_dummy/README.md`.
 
 ## Supuestos
 
@@ -232,19 +238,14 @@ celular:
   presentes: 276
   ausentes: 1
 esp:
-  presentes: 144
-  ausentes: 1
+  presentes: 193
+  ausentes: 51
 ```
 
-Eso esta demasiado desbalanceado para entrenar un detector de imagen completa.
-El flujo de `training/train_identifier.py` soluciona esto entrenando por
-cuadrantes: cada foto genera tres crops verticales. Si el identificador esta en
-el cuadrante 2, ese crop es positivo y los cuadrantes 1 y 3 son negativos.
-
-Con las fotos ESP actuales eso genera 144 crops positivos y 291 crops negativos.
-Igual conviene agregar fotos negativas tomadas con la ESP: ring sin robot, fondo
-del laboratorio, robot sin identificador visible, partes del robot que no son el
-identificador y casos donde el identificador esta fuera de cuadro.
+Con las fotos ESP actuales ya se puede entrenar el detector full-frame de cuatro
+clases: `none`, `identifier_left`, `identifier_center` e `identifier_right`.
+Esto permite que el robot use la foto completa y aun asi sepa hacia que lado
+girar para centrar el dummy.
 
 Entrena y reemplaza el modelo embebido:
 
@@ -254,10 +255,10 @@ python3 -m venv .venv-train
 source .venv-train/bin/activate
 python -m pip install --upgrade pip
 python -m pip install -r training/requirements.txt
-python training/train_identifier.py \
+python training/train_identifier_full.py \
   --dataset ../../dataset_embebidos_grupo3 \
   --sources esp \
-  --epochs 60 \
+  --epochs 80 \
   --emit-firmware
 ```
 
@@ -269,10 +270,11 @@ Por que:
 - `--emit-firmware` copia el `.tflite` convertido a los archivos C que compila
   ESP-IDF.
 
-El firmware corre el modelo una vez por zona y publica telemetria asi:
+El firmware corre el modelo una vez sobre la imagen completa y publica
+telemetria asi:
 
 ```text
-IDENTIFIER,detected=1,zone=center,left_score=12,center_score=93,right_score=9,best_score=93,threshold=70
+IDENTIFIER,detected=1,zone=center,none_score=2,left_score=7,center_score=91,right_score=0,best_score=91,threshold=65
 ```
 
 Los detalles completos estan en `training/README.md`.
@@ -334,14 +336,16 @@ idf.py size
 Salida de telemetria que debe emitir al correr:
 
 ```text
-IDENTIFIER,detected=1,identifier_score=92,no_identifier_score=8
+IDENTIFIER,detected=1,zone=center,none_score=2,left_score=7,center_score=91,right_score=0,best_score=91,threshold=65
 ```
 
 Interpretacion:
 
 - `detected=1`: el identificador fue detectado.
-- `identifier_score`: confianza de la clase identificador.
-- `no_identifier_score`: confianza de la clase sin identificador.
+- `zone`: posicion estimada del identificador en la imagen completa.
+- `none_score`: confianza de que no hay identificador.
+- `left_score`, `center_score`, `right_score`: confianza por direccion.
+- `best_score`: mayor score entre izquierda, centro y derecha.
 
 ## 8. Compilar la camara de bordes
 
@@ -421,6 +425,7 @@ Confirma manualmente:
 ```bash
 ls -lh cam_identificador/code/build/robot_sumo_identifier_camera.bin
 ls -lh cam_bordes/code/build/robot_sumo_edge_camera.bin
+ls -lh habilitacion_dummy/code/build/robot_sumo_dummy_qualification.bin
 ```
 
 ## 10. Conectar una ESP32-CAM a WSL para flashear
@@ -512,8 +517,8 @@ Si la placa sigue en modo bootloader, desconecta `GPIO0` de `GND` y presiona
 Verificacion de salida:
 
 ```text
-IDENTIFIER,detected=0,identifier_score=...,no_identifier_score=...
-IDENTIFIER,detected=1,identifier_score=...,no_identifier_score=...
+IDENTIFIER,detected=0,zone=none,none_score=...,left_score=...,center_score=...,right_score=...
+IDENTIFIER,detected=1,zone=center,none_score=...,left_score=...,center_score=...,right_score=...
 ```
 
 Para salir del monitor presiona:
@@ -608,8 +613,8 @@ Checklist funcional:
 
 - La camara de identificador imprime `IDENTIFIER,...`.
 - La camara de bordes imprime `EDGE,...`.
-- El ESP32-S3 recibe ambas UART y parsea por prefijo.
-- El S3 convierte `EDGE action` en motores.
+- El ESP32-S3 de `habilitacion_dummy` recibe ambas UART y parsea por prefijo.
+- El S3 convierte `EDGE action` en motores y centra el dummy con `IDENTIFIER zone`.
 - El robot se mueve al menos 10 cm cada 5 s si no hay contacto directo.
 - El robot evade antes de cruzar el masking tape.
 - El identificador geometrico mide mas de 5 cm y es visible en 360 grados.

@@ -21,7 +21,10 @@
 
 - Audio y movimiento autonomo base: existe en `audio_motores/code`. El robot
   avanza al arrancar y reconoce dos instrucciones audibles por microfono.
-- Integrar las dos UART al ESP32-S3 controlador.
+- Habilitacion dummy base: existe en `habilitacion_dummy/code`. El S3 combina
+  `IDENTIFIER` y `EDGE` para buscar, centrar y empujar el dummy evitando bordes.
+- Integrar las dos UART al controlador final de competencia si se fusionan
+  `habilitacion_dummy`, `audio_motores` y dashboard en un solo firmware.
 - Conectar la salida `action` de bordes a la logica de motores.
 - Agregar lectura de bateria y estimacion de velocidad.
 - Fusionar `audio_motores/code` con el controlador final si se quiere que el

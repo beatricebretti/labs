@@ -9,6 +9,19 @@ inferencia con el modelo que esta embebido en:
 Por eso, antes de flashear un detector propio, hay que entrenar en el PC, exportar
 un `.tflite` cuantizado y regenerar esos archivos C.
 
+Para la habilitacion contra el dummy se usa el flujo full-frame de 4 clases:
+
+```text
+none
+identifier_left
+identifier_center
+identifier_right
+```
+
+Ese flujo entrena con la foto completa y permite que el robot sepa hacia donde
+girar hasta centrar el dummy. El entrenamiento por cuadrantes queda como
+referencia historica y alternativa experimental.
+
 ## Estado del dataset actual
 
 El dataset esperado esta un nivel sobre `labs`:
@@ -18,27 +31,23 @@ cd ~/se-labs/labs/Proyecto
 python3 training/inspect_dataset.py --dataset ../../dataset_embebidos_grupo3
 ```
 
-Resultado observado en este checkout para imagen completa:
+Resultado observado despues de agregar fotos negativas y de derecha:
 
 ```text
 celular: 277 imagenes, 276 positivas, 1 negativa
-esp:     145 imagenes, 144 positivas, 1 negativa
+esp:     244 imagenes, 193 positivas, 51 negativas
 ```
 
-Eso no alcanza para entrenar un clasificador binario de imagen completa. Por eso
-este flujo entrena por cuadrante: cada imagen se divide en `left`, `center` y
-`right`. Si la etiqueta dice que el identificador esta en el cuadrante 2, ese
-crop se vuelve positivo y los cuadrantes 1 y 3 se vuelven negativos.
-
-Con las fotos ESP actuales, la expansion por cuadrantes produce:
+Para full-frame, las fotos ESP actuales permiten entrenar las cuatro clases:
 
 ```text
-144 crops positivos
-291 crops negativos
+none: 51
+identifier_left: 34
+identifier_center: 97
+identifier_right: 62
 ```
 
-Aunque ya se puede entrenar con esos crops, conviene agregar fotos negativas
-tomadas con la ESP para robustez:
+Si el resultado es inestable, conviene seguir agregando fotos ESP reales:
 
 - ring sin robot;
 - borde del ring;
@@ -73,7 +82,53 @@ print("numpy", np.__version__)
 PY
 ```
 
-## Entrenar modelo por cuadrante compatible con el firmware
+## Entrenar modelo full-frame compatible con el firmware
+
+Para el firmware actual de habilitacion usa primero el entrenamiento full-frame:
+
+```bash
+cd ~/se-labs/labs/Proyecto
+source .venv-train/bin/activate
+python training/train_identifier_full.py \
+  --dataset ../../dataset_embebidos_grupo3 \
+  --sources esp \
+  --epochs 80 \
+  --emit-firmware
+```
+
+El script genera:
+
+- `training/out_full/identifier_full_model.keras`: modelo Keras entrenado.
+- `training/out_full/identifier_detect_model.tflite`: modelo TFLite int8.
+- `training/out_full/identifier_detect_model_data.cc`: arreglo C generado.
+- `training/out_full/metrics.json`: metricas y matriz de confusion.
+
+Con `--emit-firmware`, el script reemplaza automaticamente el modelo embebido en
+`cam_identificador/code/main/`.
+
+Resultado observado con el dataset ESP actual:
+
+```text
+TFLite accuracy: 0.8333
+Validacion: 48 imagenes
+Matriz de confusion:
+  none:              9 none, 0 left, 1 center, 0 right
+  identifier_left:   0 none, 6 left, 1 center, 0 right
+  identifier_center: 0 none, 3 left, 15 center, 1 right
+  identifier_right:  0 none, 0 left, 2 center, 10 right
+```
+
+Esto es suficiente para probar la estrategia de habilitacion, pero aun puede
+mejorar agregando mas fotos de izquierda y centro con variaciones de distancia,
+luz y fondo real del ring.
+
+La telemetria del firmware full-frame queda:
+
+```text
+IDENTIFIER,detected=1,zone=center,none_score=2,left_score=7,center_score=91,right_score=0,best_score=91,threshold=65
+```
+
+## Entrenar modelo por cuadrante alternativo
 
 Entrenar con las fotos ESP:
 
@@ -130,7 +185,7 @@ La ubicacion sale de correr el modelo una vez por zona. No se entrenan cuatro
 clases. Esto mantiene el modelo pequeno y aprovecha los cuadrantes no ocupados
 como negativos.
 
-Una alternativa futura seria entrenar cuatro clases:
+La version actual para habilitacion entrena cuatro clases con la foto completa:
 
 ```text
 none
@@ -138,6 +193,3 @@ identifier_left
 identifier_center
 identifier_right
 ```
-
-Eso requiere cambiar `model_settings.h`, `model_settings.cc`,
-`detection_responder.cc` y la logica que imprime telemetria.

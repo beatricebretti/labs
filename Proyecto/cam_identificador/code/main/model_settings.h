@@ -22,9 +22,11 @@ constexpr int kNumChannels = 1;
 
 constexpr int kMaxImageSize = kNumCols * kNumRows * kNumChannels;
 
-constexpr int kCategoryCount = 2;
+constexpr int kCategoryCount = 4;
 constexpr int kNotIdentifierIndex = 0;
-constexpr int kIdentifierIndex = 1;
+constexpr int kIdentifierLeftIndex = 1;
+constexpr int kIdentifierCenterIndex = 2;
+constexpr int kIdentifierRightIndex = 3;
 extern const char* kCategoryLabels[kCategoryCount];
 
 constexpr int kIdentifierZoneCount = 3;

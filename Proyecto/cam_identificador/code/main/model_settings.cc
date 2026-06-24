@@ -16,6 +16,8 @@ limitations under the License.
 #include "model_settings.h"
 
 const char* kCategoryLabels[kCategoryCount] = {
-    "no_identifier",
-    "identifier",
+    "none",
+    "identifier_left",
+    "identifier_center",
+    "identifier_right",
 };
