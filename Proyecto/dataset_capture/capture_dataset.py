@@ -64,8 +64,19 @@ def save_frame(
 
 
 def read_frame(port: serial.Serial) -> tuple[int, int, int, bytes]:
+    empty_reads = 0
     while True:
-        line = port.readline().decode("utf-8", errors="ignore").strip()
+        raw_line = port.readline()
+        if not raw_line:
+            empty_reads += 1
+            if empty_reads % 2 == 0:
+                print(
+                    "Sigo esperando datos. Revisa que GPIO0 no este conectado a GND "
+                    "y presiona RST/EN en la ESP32-CAM."
+                )
+            continue
+
+        line = raw_line.decode("utf-8", errors="ignore").strip()
         match = FRAME_BEGIN_RE.search(line)
         if not match:
             continue
@@ -128,9 +139,15 @@ def main() -> int:
     print("Esperando frames por serial...")
 
     saved = 0
-    with serial.Serial(args.port, args.baud, timeout=15) as port:
-        time.sleep(2.0)
+    with serial.Serial(args.port, args.baud, timeout=5, rtscts=False, dsrdtr=False) as port:
+        # Many ESP32-CAM USB adapters wire RTS/DTR to EN/GPIO0 for auto-reset.
+        # Leave both inactive so opening the port from Python does not keep the
+        # board reset or in bootloader mode.
+        port.dtr = False
+        port.rts = False
+        time.sleep(0.5)
         port.reset_input_buffer()
+        print("Puerto serial abierto. Si no avanza, presiona RST/EN una vez.")
 
         while saved < args.count:
             frame_id, width, height, raw = read_frame(port)
