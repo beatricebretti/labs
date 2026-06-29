@@ -1,0 +1,5 @@
+.venv/
+training/out/
+dataset/latas/*
+dataset/no_latas/*
+!dataset/README.md
